@@ -1,0 +1,137 @@
+/* Glassmorphism + Minimal Design */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #4e54c8, #8f94fb);
+    height: 100vh;
+    overflow: hidden;
+  }
+  
+  .chatbot-container {
+    position: fixed;
+    bottom: 80px;
+    right: 30px;
+    width: 480px;
+    height: 540px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  
+  .chat-header {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  }
+  
+  #closeBtn {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
+  .chat-body {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    color: white;
+    font-size: 14px;
+  }
+  
+  .message {
+    margin: 10px 0;
+    max-width: 80%;
+    padding: 8px 12px;
+    border-radius: 16px;
+    line-height: 1.4;
+  }
+  
+  .bot {
+    background: rgba(255, 255, 255, 0.2);
+    align-self: flex-start;
+  }
+  
+  .user {
+    background: #6a82fb;
+    align-self: flex-end;
+  }
+  
+  .chat-input {
+    display: flex;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  .chat-input input {
+    flex: 1;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    margin-right: 8px;
+    outline: none;
+  }
+  
+  .chat-input button {
+    border: none;
+    background: #6a82fb;
+    color: white;
+    padding: 0 14px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+  }
+  
+  .chat-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    background-color: white;
+    color: #6a82fb;
+    padding: 15px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 24px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  }
+  
+  .loader-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+  }
+  
+  .loader {
+    font-size: 10px;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    text-indent: -9999em;
+    animation: mulShdSpin 1.1s infinite ease;
+    transform: translateZ(0);
+    position: relative;
+    border: 0.25em solid #ccc;
+    border-top: 0.25em solid #007bff;
+  }
+  
+  @keyframes mulShdSpin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  

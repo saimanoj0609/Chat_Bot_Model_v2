@@ -1,0 +1,4423 @@
+Page 24 has no tables.
+Page 25 Tables:
+Help and help subcommand	None
+Description	Lists all the subcommands available for use with RACADM and provides a short description about each
+subcommand. You may also type a subcommand, group, object or Fully Qualified Descriptor (FQDD) name
+after help.
+Synopsis	● racadm help
+● racadm help <subcommand>
+Input	● <subcommand> — specifies the subcommand for which you need the help information.
+● <device name> — specifies the device name such as iDRAC, BIOS, NIC, LifecycleController, FC,
+system, or Storage.
+● <group> — specifies the group name supported by the corresponding device.
+● <object> — specifies the object for the entered group.
+Output	● The help command displays a complete list of subcommands.
+● The racadm help <subcommand> command displays information for the specified subcommand
+only.
+● The racadm help <device name> <Group> command displays information for the specified
+group.
+● The racadm help <device name> <Group> <Object> command displays information for the
+specified object.
+NOTE: help for NIC/FC/Infiniband vendor implementation specific attributes are fetched from the
+respective vendors and may not be complete for few attributes.
+
+Page 26 Tables:
+Help and help subcommand	None
+Example	To display the help information about InfiniBand FQDD:
+racadm help <InfiniBand FQDD>
+
+ackdriveremoval	None
+Description	The plug-in subcommand acknowledges drive removal and clears the amber state of the chassis LED to
+healthy state.
+Synopsis	● racadm ackdriveremoval -d <drive_id> -b <bay_id>
+● racadm ackdriveremoval --all
+Input	● --all—Acknowledge all the drive removal.
+● -d—Drive ID to acknowledge drive removal.
+● -b—Bay ID to acknowledge drive removal.
+Example	To acknowledge all the drive removal:
+racadm ackdriveremoval --all
+To acknowledge the drive removal for a given drive and bay id:
+racadm ackdriveremoval -d 2 -b 0
+
+arp	None
+Description	● Displays the contents of the Address Resolution Protocol (ARP) table. ARP table entries cannot be
+added or deleted.
+● To use this command, you must have Debug privilege.
+Synopsis	racadm arp
+Input	N/A
+Example	racadm arp
+
+Address	HW Type	HW Address	Mask	Device
+192.168.1.1	Ether	00:0d:65:f3:7c:bf	C	eth0
+
+Page 27 Tables:
+autoupdatescheduler	None
+Description	You can automatically update the firmware of the devices on the server. To run this subcommand, you
+must have the Server Control privilege.
+NOTE:
+● The autoupdatescheduler subcommand can be enabled or disabled.
+● Lifecycle Controller and CSIOR may not be enabled to run this subcommand.
+● The autoupdatescheduler can be enabled or disabled.
+● The minimum Lifecycle Controller version required is Lifecycle Controller 1.3.
+● When a job is already scheduled and the clear command is run, the scheduling parameters are
+cleared.
+● If the network share is not accessible or the catalog file is missing when the job is scheduled, then
+the job is unsuccessful.
+Synopsis	● To create the AutoUpdateScheduler, run the command.
+racadm autoupdatescheduler create -u <user> -p <password> -l
+<location> -f <filename> -time <time> -dom <DayOfMonth> -wom
+<WeekOfMonth> -dow <DayofWeek> -rp <repeat> -a <applyreboot> -ph
+<proxyHost> -pu <proxyUser> -pp <proxyPassword> -po <proxyPort> -pt
+<proxyType>
+● To view the AutoUpdateScheduler parameter, run the command.
+racadm autoupdatescheduler view
+● To clear and display AutoUpdateScheduler parameter, run the command.
+racadm autoupdatescheduler clear
+NOTE: After the parameters are cleared, the AutoUpdateScheduler is disabled. To schedule the
+update again, enable the AutoUpdateScheduler.
+Input	Valid options:
+● -u — Specifies the username of the remote share that stores the catalog file.
+NOTE: For CIFS, enter the domain name as domain or username.
+● -p — Specifies the password of the remote share that stores the catalog file.
+● -l — Specifies the network share (NFS, CIFS, FTP, TFTP, HTTP, or HTTPS) location of the catalog
+file. IPv4 and IPv6 addresses are supported.
+● -f — Specifies the catalog location and the filename. If the filename is not specified, then the default
+file used is catalog.xml.
+NOTE: If the file is in a subfolder within the share location, then enter the network share location
+in the –l option and enter the subfolder location and the filename in the –f option.
+● -ph — Specifies the FTP/HTTP proxy hostname.
+● -pu — Specifies the FTP/HTTP proxy username.
+● -pp — Specifies the FTP/HTTP proxy password.
+● -po — Specifies the FTP/HTTP proxy port.
+● -pt — Specifies the FTP/HTTP proxy type.
+● -time — Specifies the time to schedule an autoupdate in the HH:MM format. This option must be
+specified.
+● -dom — Specifies the day of month to schedule an autoupdate. Valid values are 1–28, L (Last day) or
+'*' (default—any day).
+● -wom — Specifies the week of month to schedule an autoupdate. Valid values are 1–4, L (Last week)
+or '*' (default—any week).
+● -dow — Specifies the day of week to schedule an autoupdate. Valid values are sun, mon, tue, wed,
+thu, fri, sat, or '*' (default—any day).
+
+Page 28 Tables:
+autoupdatescheduler	None
+	NOTE: The -dom, -wom, or -dow option must be included in the command for the autoupdate
+schedule. The * value for the options must be included within ' ' (single quotation mark).
+● If the -dom option is specified, then the -wom and -dow options are not required.
+● If the-wom option is specified, then the-dow is required and -dom is not required.
+● If the-dom option is non-'*', then the schedule repeats by month.
+● If the-wom option is non-'*', then the schedule repeats by month.
+● If the-dom and -wom options are '*' and the -dow option is non-'*', then the schedule repeats by
+week.
+● If all the three -dom, -wom and -dow options are '*', then the schedule repeats by day.
+● -rp — Specifies the repeat parameter. This parameter must be specified.
+○ If the-dom option is specified, then the valid values for -rp are 1–12.
+○ If the-wom option is specified, then the valid values for -rp are 1–52.
+○ If the-dow option is specified, then the valid values for -rp are 1–366.
+● -a — Applies reboot (1—Yes, 0—No). This option must be specified.
+
+Page 29 Tables:
+autoupdatescheduler	None
+	○ To clear and display AutoUpdateScheduler parameter:
+racadm autoupdatescheduler clear
+RAC1047: Successfully cleared the Automatic Update (autoupdate)
+feature settings
+
+bioscert	None
+Description	Allows you to
+● View the installed Secure Boot Certificates. To view, you must have the Login privilege.
+● Export the Secure Boot Certificate to a remote share or local system. To export, you must have the
+Login privilege.
+● Import the Secure Boot Certificate from a remote share or local system. To import, you must have login
+and system control privilege.
+● Delete the installed Secure Boot Certificate. To delete, you must have login and system control
+privilege.
+● Restore the installed Secure Boot Certificate Sections. To restore, you must have login and system
+control privilege.
+Synopsis	● To view the installed Secure Boot Certificates
+racadm bioscert view –all
+● To export the Secure Boot Certificate to a remote share or local system.
+racadm bioscert view -t <keyType> -k <KeySubType> -v <HashValue or
+ThumbPrintValue>
+● racadm bioscert export -t <keyType> -k <KeySubType> -v <HashValue
+or ThumbPrintValue> -f <filename> -l <CIFS/NFS/HTTP/HTTPS share> -u
+<username> -p <password>
+● racadm bioscert import -t <keyType> -k <KeySubType> -f <filename> -l
+<CIFS/NFS/HTTP/HTTPS share> -u <username> -p <password>
+● racadm bioscert delete –all
+● racadm bioscert delete -t <keyType> -k <KeySubType> -v <HashValue or
+ThumbPrintValue>
+● racadm bioscert restore –all
+● racadm bioscert restore -t <keyType>
+Input	● -t— Specifies the key type of the Secure Boot Certificate to be exported.
+○ 0—Specifies the PK (Platform Key)
+○ 1—Specifies the KEK (Key Exchange Key)
+○ 2—Specifies the DB (Signature Database)
+○ 3—Specifies the DBX (Forbidden signatures Database)
+● -k — Specifies the Certificate type or the Hash type of the Secure Boot Certificate file to be exported.
+○ 0—Specifies the Certificate type
+○ 1—Specifies the Hash type (SHA - 256)
+
+racadm bioscert view -t <keyType> -k <KeySubType> -v <HashValue or
+ThumbPrintValue>
+racadm bioscert export -t <keyType> -k <KeySubType> -v <HashValue
+or ThumbPrintValue> -f <filename> -l <CIFS/NFS/HTTP/HTTPS share> -u
+<username> -p <password>
+racadm bioscert import -t <keyType> -k <KeySubType> -f <filename> -l
+<CIFS/NFS/HTTP/HTTPS share> -u <username> -p <password>
+racadm bioscert delete –all
+racadm bioscert delete -t <keyType> -k <KeySubType> -v <HashValue or
+ThumbPrintValue>
+racadm bioscert restore –all
+racadm bioscert restore -t <keyType>
+
+Page 30 Tables:
+bioscert	None
+	○ 2—Specifies the Hash type (SHA - 384)
+○ 3—Specifies the Hash type (SHA - 512)
+● -v— Specifies the Thumbprint value or the Hash value of the Secure Boot Certificate file to be
+exported.
+● -f—Specifies the file name of the exported Secure Boot Certificate.
+● -l—Specifies the network location to where the Secure Boot Certificate file must be exported.
+● -u—Specifies the username for the remote share to where the Secure Boot Certificate file must be
+exported.
+● -p—Specifies the password for the remote share to where the Secure Boot Certificate file must be
+exported.
+
+Page 31 Tables:
+bioscert	None
+	● Import a KEK certificate from a local share using Local RACADM.
+racadm bioscert import -t 1 -k 0 -f kek_cert.der
+● Import a KEK certificate from a local share using remote RACADM.
+racadm -r 10.94.161.119 -u root -p calvin bioscert import -t 1 -k 0 -f
+kek_cert.der
+● To delete an installed KEK Secure Boot Certificate
+racadm bioscert delete -t 3 -k 0 -v
+416e3e4a6722a534afba9040b6d6a69cc313f1e48e7959f57bf248d543d00245
+● To delete an installed DBX Secure Boot Certificate of HASH type SHA-256.
+racadm bioscert delete -t 3 -k 1 -v
+416e3e4a6722a534afba9040b6d6a69cc313f1e48e7959f57bf248d543d00245
+● To delete all the installed KEK Secure Boot Certificates
+racadm bioscert delete --all
+● To restore the installed KEK Secure Boot Certificates
+racadm bioscert restore -t 1
+● To restore all the installed Secure Boot Certificates
+racadm bioscert restore --all
+
+biosscan	None
+Description	Allows iDRAC to scan the BIOS on scheduled intervals or as requested by the user.
+Synopsis	To schedule BIOS scanning
+racadm biosscan -s <Frequency Type>
+or
+racadm biosscan -s <frequency> -t <start-time> -d <start-date>
+Input	● -s—Specifies the type of schedule for BIOS scan.
+○ 0—Never schedule for BIOS scan and deletes existing schedules
+○ 1—Schedule now
+○ 2—Schedule daily
+○ 3—Schedule weekly
+○ 4—Schedule monthly
+○ 5—Schedule yearly
+● -t<HH:00>—Schedule start time in a 24-hour format. Specifying minute is not supported, therefore
+the minute value must be set as 00. The default time is set to 23:00 if time is not specified.
+● -d<YYYY-MM-DD>—Schedule start date. The default date is set to the current date when the date is
+not specified.
+NOTE: -t and -d inputs must be specified together and are not applicable for -s 0 and -s 1.
+
+Page 32 Tables:
+biosscan	None
+	NOTE: In modular systems, the scheduled start time (minutes) may vary based on the server slot
+number.
+Example	● To perform the BIOS Scan immediately:
+racadm biosscan -s 1
+● To perform the BIOS Scan daily:
+racadm biosscan -s 2
+● To perform BIOS scan weekly at 2100 Hrs from December 20, 2020:
+racadm biosscan -s 3 -t 21:00 -d 2020-12-20
+● To perform BIOS scan weekly from today at default time 23:00:
+racadm biosscan -s 3
+
+cd	None
+Description	To change the current working object, use this command.
+Synopsis	racadm>> cd <object>
+Input	racadm>> cd <object>
+Output	Displays the new prompt.
+Example	● Example 1: To navigate to the system device type directory:
+racadm>>cd system
+racadm/system>
+● Example 2: To run all the power-related get or set commands:
+racadm/system>cd power
+racadm/Power>
+
+clearasrscreen	None
+Description	Clears the last crash (ASR) screen that is in memory. For more information, see "Enabling Last Crash
+Screen" section in Integrated Dell Remote Access Controller User's Guide..
+NOTE: To run this subcommand, you must have the Clear Logs permission.
+
+Page 33 Tables:
+clearasrscreen	None
+Synopsis	racadm clearasrscreen
+Input	None
+Output	Clears the last crash screen buffer.
+Example	racadm clearasrscreen
+
+clearpending	None
+Description	Deletes the pending values of all the attributes (objects) in the device (NIC, BIOS, FC, and Storage).
+NOTE: If any attribute is not modified or a job is already scheduled for the same device, then the
+pending state is not cleared or deleted.
+Synopsis	racadm clearpending <FQDD>
+Input	<FQDD> — The values are:
+● BIOS FQDD
+● NIC FQDD
+● InfiniBand FQDD
+● FC FQDD
+● Storage controller FQDD
+Output	A message is displayed indicating that the pending state is cleared or deleted.
+Example	● To clear the pending state of NIC device
+racadm clearpending NIC.Integrated.1-1
+● To clear the pending state of InfiniBand device
+racadm clearpending <InfiniBand FQDD>
+
+closessn	None
+Description	Closes a communication session on the device. Use getssninfo to view a list of sessions that can be
+closed using this command. To run this subcommand, you must have the Administrator permission.
+NOTE: This subcommand ends all the sessions other than the current session.
+Synopsis	● racadm closessn –i <session_ID>
+● racadm closessn -a
+● racadm closessn -u <username>
+
+racadm closessn –i <session_ID>
+racadm closessn -a
+racadm closessn -u <username>
+
+Page 34 Tables:
+closessn	None
+Input	● —i <session_ID> — The session ID of the session to close, which can be retrieved using RACADM
+getssninfo subcommand. Session running this command cannot be closed.
+● —a — Closes all sessions.
+● —u <username> — Closes all sessions for a particular user name.
+Output	Successful or error message is displayed.
+Example	● Closes the session 1234.
+racadm closessn -i 1234
+● Closes all the sessions other then the active session for root user.
+racadm closessn –u root
+● Closes all the sessions.
+racadm closessn –a
+
+clrsel	None
+Description	● Removes all the existing records from the System Event Log (SEL).
+● To use this subcommand, you must have Clear Logs permission.
+Synopsis	racadm clrsel
+Example	● racadm clrsel
+The SEL was cleared successfully
+
+cmreset	None
+Description	This command is used to perform a chassis manager reset operation.
+Synopsis	NOTE: This command is only supported on DCS systems.
+● racadm cmreset
+Example	● To perform the chassis manager reset operation.
+racadm cmreset
+
+Page 35 Tables:
+connect	None
+Description	Allows you to connect to the switch or blade serial console.
+NOTE: This subcommand is only supported on the firmware interface.
+Synopsis	● racadm connect [-b] -m <module>
+Input	● -b—binary mode.
+NOTE: If -b is used, CMC must be reset to terminate connect.
+● -m—module, and can be one of the following values:
+○ server-<n>—where n = 1 to 16
+○ server-<nx>—where n = 1 to 8 and x = a to d
+○ switch-n—where n = 1 to 6 or <a1 | a2 | b1 | b2 | c1 | c2>
+Examples	● To connect to I/O Module 1 serial console:
+racadm connect -m switch-1
+● To connect to server 1 serial console:
+racadm connect -m server-1
+
+coredump	None
+Description	Displays the list of RAC coredump files. If available, the coredump information is persistent across
+iDRAC power cycles and remains available until either of the following conditions occur: The
+coredump information is deleted using the coredumpdelete subcommand. For more information
+about clearing the coredump, see the coredumpdelete.
+NOTE: To use this subcommand, you must have the Execute Debug privilege.
+Synopsis	racadm coredump
+Example	● racadm coredump
+There is no coredump currently available.
+● racadm coredump
+<size> <date & time> <name>
+863 Feb 8 05:56 corefile1.gz
+31 Feb 8 05:56 corefile2.gz
+322 Feb 8 05:56 corefile3.gz
+NOTE: The output displays the file size in kilobytes.
+
+racadm coredump
+There is no coredump currently available.
+racadm coredump
+<size> <date & time> <name>
+863 Feb 8 05:56 corefile1.gz
+31 Feb 8 05:56 corefile2.gz
+322 Feb 8 05:56 corefile3.gz
+
+Page 36 Tables:
+coredumpdelete	None
+Description	Deletes any currently available coredump data stored in the RAC. To use this subcommand, you must have
+Execute Debug Command permission.
+NOTE: If a coredumpdelete command is issued and a coredump is not currently stored in the RAC,
+the command displays a success message. This behavior is expected. See the coredump subcommand
+for more information about viewing a coredump.
+Synopsis	racadm coredumpdelete [-f <coreFileName>][--all]
+Output	Coredump is deleted.
+Input	● -f <coreFileName>— Specifies the name of the core file to be deleted.
+● --all— Deletes all core files.
+Example	● To delete a specific core file
+racadm coredumpdelete -f corefile.gz
+● To delete all core files
+racadm coredumpdelete --all
+
+coredumpexport	None
+Description	Exports the RAC coredump files.
+Synopsis	racadm coredumpexport -f <filename> -l <NFS or CIFS share> -u <username>
+-p <password>
+Output	Coredump files exported successfully
+Input	● -u <username> —Username of the remote share to where the file must be exported.
+● -p <password> —Password for the remote share to where the file must be exported.
+● -l <location> —NFS/CIFS Network share location to where the file must be exported.
+● -f <filename> —Core file to be exported.
+Example	● Export a particular coredump file to a remote CIFS share:
+racadm coredumpexport -f corefile.gz -u admin -p mypass -l //1.2.3.4/
+share
+● Export a particular coredump file to a remote NFS share:
+racadm coredumpexport -f corefile.gz -u admin -p mypass -l 1.2.3.4:/
+share
+
+Page 37 Tables:
+diagnostics	None
+Description	Collects and exports remote diagnostics report from iDRAC. The results of the latest successfully run
+remote diagnostics are available and retrievable remotely through an NFS, CIFS, HTTP, or HTTPS) share.
+Synopsis	To run a remote diagnostic report:
+racadm diagnostics run -m <mode> -r <reboot type> -s <start time> -e
+<expiration time>
+None	To export a remote diagnostic report:
+racadm diagnostics export -f <file name> -l <NFS,CIFS,HTTP,or HTTPS
+share location> -u <username> -p <password>
+Input	● —m <mode>—Specifies the type of diagnostic mode. The types are:
+○ Collect and export remote diagnostics report from the iDRAC. The results of the latest successfully
+executed remote Diagnostics will be available and retrievable remotely through the NFS, CIFS,
+HTTP, and HTTPS share.
+○ 0(Express)—The express mode executes a subset of diagnostic tests.
+○ 1(Extended)—The extended mode executes all available diagnostics tests.
+○ 2(Both)—Runs express and extended tests serially in sequence.
+● -f <filename>—Specifies the name of the configuration file.
+● -l—Specifies the location of the network share (NFS, CIFS, HTTP, and HTTPS).
+● -u <username>—Specifies the user name of the remote share to import the file.
+● -p <password>—Specifies the password of the remote share to import the file.
+● -r <reboot type>—Specifies the reboot type. The type can be one of the following:
+○ pwrcycle—Power cycle
+○ Graceful —Graceful reboot without forced shutdown
+○ Forced—Graceful reboot with forced shutdown
+● -s <start time>—Specifies the start time for the scheduled job in yyyymmddhhmmss format.
+The default value TIME_NOW starts the job immediately.
+● -e <expiration time>—Specifies the expiry time for the scheduled job in yyyymmddhhmmss
+format. The default value TIME_NA does not apply the waiting time.
+NOTE: For the diagnostic report run operation, the time difference between the -s and -e options
+must be more than five minutes.
+Output	Provides the Job ID for the diagnostic operation.
+
+Page 38 Tables:
+diagnostics	None
+	● To export a remote diagnostics report to the HTTPS share:
+racadm diagnostics export -f diags.txt -u httpsuser -p httpspwd -l
+https://test.com
+● To export a remote diagnostics report to a local share:
+racadm diagnostics export -f diags.txt
+
+driverpack	None
+Description	Installs the driver pack for the operating system.
+Synopsis	To get information about the available driver packs
+racadm driverpack getinfo
+None	To attach the driver pack that matches the operating system
+Racadm driverpack attach -i <index> -t <expose duration>
+None	To detach the driver pack
+Racadm driverpack detach
+Input	● -i—index of the operating system
+● -t—exposed time duration in seconds. It is an optional parameter and the default value is 64800
+seconds.
+Output	● racadm driverpack getinfo—<OS name>
+● Racadm driverpack attach—Job Id details
+● Racadm driverpack detach—detach successful
+racadm driverpack getinfo—<OS name>
+Racadm driverpack attach—Job Id details
+Racadm driverpack detach—detach successful
+Example	● To attach the driver pack with operating system index and exposed time
+racadm driverpack attach -i <OS Index> [-t <exposed time>]
+● To check the job status
+racadm jobqueue view -i JID_000000000000
+● To detach the operating system
+racadm driverpack detach
+
+Page 39 Tables:
+eventfilters	None
+Description	Displays the list of event filter settings. To use this subcommand with the set and test option, you must
+have the Administrator privilege.
+Synopsis	racadm eventfilters <eventfilters command type>
+racadm eventfilters get -c <alert category>
+racadm eventfilters set -c <alert category> -a <action> -n <notifications>
+racadm eventfilters set -c <alert category> -a <action> -r <recurrence>
+racadm eventfilters test -i <Message ID to test>
+NOTE: The general format of an alert category:
+idrac.alert.category.[subcategory].[severity]
+where category is mandatory, but subcategory and severity are optional. A severity cannot precede a
+subcategory.
+Valid Category values are:
+● All
+● System
+● Storage
+● Updates
+● Audit
+● Config
+● Worknotes
+Definitions of the values are:
+● System Health—System Health category represents all the alerts that are related to hardware within
+the system chassis. Examples include temperature errors, voltage errors, and device errors.
+● Storage Health—Storage Health category represents alerts that are related to the storage subsystem.
+Examples include, controller errors, physical disk errors, and virtual disk errors.
+● Updates—Update category represents alerts that are generated when firmware/drivers are upgraded
+or downgraded.
+NOTE: This does not represent firmware inventory.
+● Audit—Audit category represents the audit log. Examples include, user login/logout information,
+password authentication failures, session info, and power states.
+● Configuration—Configuration category represents alerts that are related to hardware, firmware, and
+software configuration changes. Examples include, PCIe card added/removed, RAID configuration
+changed, iDRAC license changed.
+● Work notes—Work notes represents an entry in the Lifecycle log. You can add a work note
+to the Lifecycle Log to record comments for your reference. You can enter comments such as
+scheduled downtime or changes that are made by administrators who work in different shifts for the
+later reference.
+NOTE: idrac.all.all is not a valid sub category.
+
+Page 40 Tables:
+eventfilters	None
+	Valid Severity values are:
+● Critical
+● Warning
+● Info
+Valid examples of alert queries are:
+● idrac.alert.all
+● idrac.alert.audit
+● idrac.alert.audit.lic
+● idrac.alert.audit.warning
+● idrac.alert.audit.lic.critical
+This command does not support setting the proxy parameters if the share location (-l) is HTTP/HTTPS.
+For more information, see Proxy parameter section.
+Input	● get—Displays the list of eventfilter settings
+● set—Configures the actions and notifications for a given eventfilter configuration
+● -i—Message ID for which the simulation is needed
+● -c—Alert category of the specific event filter
+● -a—The action that must be invoked when the event occurs. Valid values are none, powercycle,
+power off, or systemreset
+● -n—The notification is sent when the event occurs. Valid values are all, snmp, ipmi, ws-events,
+redfish-events, oslog, email, remotesyslog, or none. You can append multiple notifications
+that are separated by a comma. You cannot enter the values all or none with other notifications. If
+incorrect notification is specified along with other valid notifications, the valid and invalid notification
+set is failed.
+● -r—Event generation interval. This option is applicable only to the temperature statistics subcategory
+tmps. You can use this option as a stand-alone or with -n and -a.
+NOTE: If both event generation interval and notifications are configured and there is an error while
+configuring the notifications, the event generation interval is not set. The valid values are 0–365. 0
+disables the event generation.
+
+Page 41 Tables:
+eventfilters	None
+	● Configure using severity as a parameter. For example, all informational events in storage category are
+assigned power off as action, and email and SNMP as notifications.
+racadm eventfilters set -c idrac.alert.storage.info -a poweroff -n
+email,snmp
+● Configure using subcategory as a parameter. For example, all configurations under the licensing
+subcategory in the audit category are assigned power off as action and all notifications are enabled.
+racadm eventfilters set -c idrac.alert.audit.lic -a poweroff -n all
+● Configure using subcategory and severity as parameters. For example, all information events under the
+licensing subcategory in the audit category are assigned power off as action and all notifications are
+disabled:
+racadm eventfilters set -c idrac.alert.audit.lic.info -a poweroff -n
+none
+● Configure the event generation interval for temperature statistics.
+racadm eventfilters set -c idrac.alert.system.tmps.warning -r 10
+● Configure the event generation interval and notifications for temperature statistics.
+racadm eventfilters set -c idrac.alert.system.tmps -r 5 -a none -n snmp
+● Send a test alert for the fan event.
+racadm eventfilters test -i FAN0001
+● To configure the proxy parameter.
+racadm set lifecyclecontroller.lcattributes.UserProxyUsername admin1
+● To remove the proxy parameter.
+racadm set lifecyclecontroller.lcattributes.UserProxyUsername
+● To view the list of proxy attributes.
+racadm get lifecycleController.lcAttributes
+
+exposeisminstallertohost	None
+Description	Exposes the ISM installer to host OS
+Synopsis	racadm exposeisminstallertohost
+Input	Not Applicable
+Example	Not Applicable
+
+Page 42 Tables:
+fcstatistics	None
+Description	Displays a list of FCs (FQDDs), managed server for which statistics is available.
+Synopsis	racadm fcstatistics <FC fqdd>
+Input	<FC fqdd> — Specify the FQDD of the target FC device.
+Example	racadm fcstatistics <FC fqdd>
+
+frontpanelerror	None
+Description	Enables or disables the live-feed of the errors currently being displayed on the LCD screen. For error
+acknowledge use hide, and error assert use show.
+Synopsis	racadm frontpanelerror show
+racadm frontpanelerror hide
+Input	● show — to view the errors currently being displayed on the LCD screen.
+● hide — to hide the errors currently being displayed on the LCD screen.
+Example	● racadm frontpanelerror show
+Front Panel Error—Show Enabled.
+● racadm frontpanelerror hide
+Front Panel Error—Hide Enabled.
+
+racadm frontpanelerror show
+Front Panel Error—Show Enabled.
+racadm frontpanelerror hide
+Front Panel Error—Hide Enabled.
+
+fwupdate	None
+Description	Allows you to update the firmware. You can:
+● Check the firmware update process status.
+● Update iDRAC firmware from FTP or TFTP server by providing an IP address and optional path.
+● Update iDRAC firmware from the local file system using Local and Remote RACADM.
+● Roll back to the standby firmware.
+To use this subcommand, you must have Configure iDRAC permission.
+NOTE: This command is only for iDRAC firmware update. For any other firmware update like BIOS or
+DUPs, use Update subcommand.
+NOTE: If the iSM is exposed on the host server, you may see the Firmware update operation
+is already in progress error.
+
+Page 43 Tables:
+fwupdate	None
+Synopsis	racadm fwupdate -s
+racadm fwupdate -g -u -a <TFTP_Server_IP_Address>
+[-d <path> [--clearcfg]
+racadm -r <iDRAC IP_Address> -u <username> -p <password> fwupdate -f
+<ftpserver ip> <ftpserver username> <ftpserver password> -d <path> where
+path is the location on the ftp server where firmimgFIT.d9 is stored.
+racadm fwupdate -r
+racadm fwupdate -p -u [-d <path>]
+NOTE: When attempting to run firmware update task, if the firmware image path length is greater than
+256 characters, remote RACADM client exits with the error message "ERROR: Specified path
+is too long".
+Input	● —u—The update option performs a checksum of the firmware update file and starts the update
+process. This option may be used along with the —g or —p options. At the end of the update, iDRAC
+performs a soft reset.
+● —s—This option returns the status of the update process.
+● -a—The -a option specifies TFTP server IP address that is used for firmware image. This option must
+be used with the -g option.
+● --clearcfg—The -clearcfg option removes the previous iDRAC configuration after firmware
+update.
+● -g—The get option instructs the firmware to get the firmware update file from the TFTP server.
+Specify the -a -u, and —d options. In the absence of the —a option, the defaults are read from
+properties in the group cfgRemoteHosts, using properties cfgRhostsFwUpdateIpAddr and
+cfgRhostsFwUpdatePath.
+● -p—The -p, or put, option is used to update the firmware file from the managed system to iDRAC. The
+-u option must be used with the -p option.
+● Default: Designated TFTP default directory on that host for the file if -g option is absent. If -g is
+used, it defaults to a directory configured on the TFTP server.
+NOTE: The -p option is supported on local and remote RACADM and is not supported with the
+serial/ssh console and on the Linux operating systems.
+NOTE: The -p option is applicable for both remote and local RACADM proxy commands. However, this
+option is not supported for local RACADM running on Linux operating systems.
+NOTE: The filename for firmware update file must be firmimgFIT.d9.
+● -r—The rollback option is used to roll back to the standby firmware.
+Output	Displays a message indicating the operation that is being performed.
+
+Page 44 Tables:
+fwupdate	None
+	● Query the current status of the firmware update process:
+racadm fwupdate -s
+● Rollback to the standby firmware:
+racadm fwupdate -r
+● Upload firmware image from TFTP server, start firmware update. After firmware update is complete,
+delete previous iDRAC configuration:
+racadm fwupdate -g -u -a 192.168.0.100 -d /tmp/images --clearcfg
+NOTE: Firmware update from local RACADM (using -p -u -d options) is not supported on Linux
+operating system.
+
+FW Update Method	iDRAC on Blade Servers	iDRAC on Rack and Tower Servers
+Local RACADM	Yes	Yes
+Local RACADM-TFTP	Yes	Yes
+Local RACADM-FTP	Yes	Yes
+Remote RACADM	Yes	Yes
+Remote RACADM-TFTP	Yes	Yes
+Remote RACADM-FTP	Yes	Yes
+Firmware RACADM-TFTP	Yes	Yes
+Firmware RACADM-FTP	Yes	Yes
+
+gethostnetworkinterfaces	None
+Description	Displays host network interface details.
+NOTE: To run this subcommand, you must have iDRAC Service Module installed on the server
+operating system.
+Synopsis	racadm gethostnetworkinterfaces
+racadm gethostnetworkinterfaces <NIC FQDD>
+
+Page 45 Tables:
+gethostnetworkinterfaces	None
+	MAC Address : 00-25-64-F9-7A-E7
+IPv4 Address : 169.254.0.2
+Subnet Mask : 255.255.255.0
+IPv6 Address : fe80::1cce:a0a7:f30e:54fc
+Prefix Length : 64
+IPv6 DNSServer Address 0: fec0:0:0:ffff::1
+IPv6 DNSServer Address 1: fec0:0:0:ffff::2
+IPv6 DNSServer Address 2: fec0:0:0:ffff::3
+● To display the details of a particular NIC on the server.
+racadm gethostnetworkinterfaces NIC.Integrated.1-1-1
+Local Area Connection
+Description : Broadcom NetXtreme Gigabit Ethernet
+Status : Up
+Interface Type : Ethernet
+DHCP : Enabled
+DHCPServerV4 : 10.94.224.25
+MAC Address : 14-FE-B5-FF-B1-9C
+FQDD : NIC.Integrated.1-1-1
+IPv4 Address : 10.94.225.189
+Subnet Mask : 255.255.255.128
+IPv6 Address : fe80::7c5f:a114:84d4:17f6
+Prefix Length : 64
+IPv4 Gateway Address : 10.94.225.129
+IPv4 DNSServer Address 0: 10.116.2.250
+IPv4 DNSServer Address 1: 10.116.2.251
+
+getled	None
+Description	Displays the LED settings on a module: blinking, not blinking, or unknown (for empty slots). To run this
+subcommand, you must have the Login User privilege.
+Synopsis	racadm getled
+Output	● LED is blinking
+● LED is not-blinking
+Example	racadm getled
+LED State : Blinking
+racadm getled
+LED State : Not-Blinking
+
+getmetrics	None
+Description	The getmetrics command is used to display utilization of GPU devices such as GPU Utilization, Memory
+Utilization, Graphics Clock frequency and Memory clock frequency.
+Synopsis	racadm getmetrics <FQDD>
+
+Page 46 Tables:
+getmetrics	None
+Input	● <FQDD>— FQDD of GPU device
+Example	To display the utilization of GPU devices:
+racadm getmetrics Video.Slot.1-1
+
+getniccfg	None
+Description	Displays the current and static NIC settings for iDRAC.
+Synopsis	racadm getniccfg
+Output	The getniccfg subcommand displays an appropriate error message if the operation is not successful.
+Otherwise, the output is displayed in the following format: The following provides the details of IPV4
+settings:
+IPv4 settings:
+NIC Enabled =1
+IPv4 Enabled =1
+DHCP Enabled =0
+IP Address =10.94.227.207
+Subnet Mask =255.255.255.0
+Gateway =10.94.227.1
+IPv6 settings:
+IPv6 Enabled =Enabled
+DHCP6 Enabled =Enabled
+IP Address 1 =::
+Gateway =::
+Link Local Address =::
+IP Address 2 =::
+IP Address 3 =::
+IP Address 4 =::
+IP Address 5 =::
+IP Address 6 =::
+IP Address 7 =::
+IP Address 8 =::
+IP Address 9 =::
+IP Address 10 =::
+IP Address 11 =::
+IP Address 12 =::
+IP Address 13 =::
+IP Address 14 =::
+IP Address 15 =::
+LOM Status:
+NIC Selection =dedicated
+Link Detected =Yes
+Speed =1Gb/s
+Duplex Mode =Full Duplex
+Active NIC =Dedicated
+Static IPv4 settings:
+Static IP Address =10.94.227.207
+Static Subnet Mask =255.255.255.0
+Static Gateway =10.94.227.1
+Static IPv6 settings:
+Static IP Address 1 =::
+Static Prefix Length =64
+Static Gateway =::
+
+Page 47 Tables:
+getniccfg	None
+	NOTE: IPv6 information is displayed only if IPv6 is enabled in iDRAC.
+NOTE: IPv6 Address 1 field indicates static IP and IPv6 Address 2 field indicates dynamic IP.
+NOTE: LOM Status is displayed only for iDRAC on Rack and Tower servers and is not displayed for
+iDRAC Enterprise on Blade servers.
+Example	● Display iDRAC network settings in server slot 1
+racadm getniccfg
+
+getraclog	None
+Description	The getraclog command displays RAC log entries.
+Synopsis	● racadm getraclog [-i]
+● racadm getraclog [-s <start>] [-c <count>]
+racadm getraclog [-c <count>] [-s <start-record>]
+NOTE: If options are not provided, the entire log is displayed.
+Input	● -c — Specifies the number of records to display.
+NOTE: On Local RACADM, the number of logs are restricted to 100 by default.
+● -s — Specifies the starting record used for the display.
+NOTE: When Enhanced Chassis Logging and Events feature is enabled, then -i and --more options are
+not displayed.
+Output	SeqNumber = 286
+Message ID = USR0005
+Category = Audit
+AgentID = RACLOG
+Severity = Information
+Timestamp = 2017-05-15 06:25:27
+Message = Login failed from processdisco06a: 192.168.0
+Message Arg 1 = processdisco06a
+Message Arg 2 = 10.92.68.245
+FQDD = iDRAC.Embedded.1
+
+racadm getraclog [-i]
+racadm getraclog [-s <start>] [-c <count>]
+
+Page 48 Tables:
+getraclog	None
+	Message = License yPMRJGuEf7z5HG8LO7gh assigned to device iDRAC expires
+in 4 days.
+Message Arg 1 = yPMRJGuEf7z5HG8LO7ghMessage Arg 2 = iDRACMessage Arg 3 = 4
+--------------------------------------------------------------------------
+---------
+SeqNumber = 4101
+Message ID = USR0032
+Category = Audit
+AgentID = RACLOG
+Severity = Information
+Timestamp = 2017-05-15 06:25:27
+Message = The session for root from 192.168.0 using RACADM is logged off.
+Message Arg 1 = root
+Message Arg 2 = 10.94.98.92
+Message Arg 3 = RACADM
+FQDD = iDRAC.Embedded.1
+--------------------------------------------------------------------------
+-----------
+
+getractime	None
+Description	Displays the current iDRAC time.
+Synopsis	● racadm getractime [-d]
+Input	● -d — Displays the time in the format, YYYYMMDDhhmmss.
+Output	The current iDRAC time is displayed.
+Example	● racadm getractime
+Mon May 13 17:17:12 2013
+● racadm getractime -d
+20141126114423
+
+racadm getractime
+Mon May 13 17:17:12 2013
+racadm getractime -d
+20141126114423
+
+getremoteservicesstatus	None
+Description	Displays the status of a system.
+Synopsis	racadm getremoteservicesstatus
+Input	racadm getremoteservicesstatus
+None	Possible values for the host system status
+● Powered Off
+● In POST
+● Out of POST
+● Collecting System Inventory
+● Automated Task Execution
+● Lifecycle Controller Unified Server Configurator
+● Server has halted at F1/F2 error prompt because of a POST error
+
+Page 49 Tables:
+getremoteservicesstatus	None
+	● Server has halted at F1/F2/F11 prompt because there are no bootable devices available
+● Server has entered F2 setup menu
+● Server has entered F11 Boot Manager menu
+Possible values for the for Lifecycle controller(LC) status
+● Ready
+● Not Initialized
+● Reloading data
+● Disabled
+● In Recovery
+● In Use
+Possible values for the real time status
+● Ready
+● Not ready
+● Not Applicable
+NOTE: The real time status is displayed as Not Applicable if there are no real time capable
+controllers present on the system.
+Possible values for the overall status
+● Ready
+● Not ready
+Possible values for the Telemetry status
+● Ready
+● Not ready
+Example	● racadm getremoteservicesstatus
+
+getsel	None
+Description	Displays all system event log (SEL) entries in iDRAC.
+Synopsis	● racadm getsel [-i]
+● racadm getsel [-s <start>][-c <count>]
+NOTE: If no arguments are specified, the entire log is displayed.
+Input	● —i — Displays the number of entries in the SEL.
+● -s — Displays the starting record number.
+● -c — Specifies the number of records to display.
+● --more — Displays a screen.
+NOTE: Press Q to exit from the screen.
+● -A — Does not display headers or labels.
+● -o — Displays each record on a single line..
+● -E — Displays RAW SEL data along with the other data.
+● -R — Displays only the RAW SEL data for each record
+Example	● Display entire log.
+racadm getsel
+● Display number of records in log.
+racadm getsel -i
+
+Page 50 Tables:
+getsensorinfo	None
+Description	Displays the status for system sensors.
+NOTE: For the Dell PowerEdge FX2 chassis with the FM120x4 server, the power-related information is
+not displayed.
+Synopsis	● racadm getsensorinfo
+● racadm getsensorinfo -c
+Input	-c—Compact output format.
+
+racadm getsensorinfo
+racadm getsensorinfo -c
+
+<Sensor Name>	<Status>	<Type>	<Input Power>
+PS1 Status	Present	AC	Watts
+PS2 Status	AC-Lost	AC	Watts
+
+<Sensor
+Name>	<Status>	<Reading>	<lc>	<uc>	<Inc>[R/W]	<Unc>[R/W]
+System
+Board Inlet
+Temp	Ok	20 C	-7 C	47 C	3 C [Y]	42C [Y]
+System
+Board
+Exhaust
+Temp	Ok	19 C	0 C	75 C	0 C [N]	70 C [N]
+CPU1 Temp	Ok	59 C	3 C	97 C	8 C [N]	92 C [N]
+
+<Sensor Name>	<Status>	<Reading>	<lc>	<uc>	<PWM %>
+System Board
+Fan1 RPM	Ok	5880 RPM	600 RPM	NA	21%
+System Board
+Fan2 RPM	Ok	6000 RPM	600 RPM	NA	0%
+System Board
+Fan3 RPM	Ok	5880 RPM	600 RPM	NA	0%
+
+Page 51 Tables:
+<Sensor Name>	<Status>	<Reading>	<lc>	<uc>	<PWM %>
+System Board
+Fan4 RPM	Ok	5880 RPM	600 RPM	NA	0%
+System Board
+Fan5 RPM	Ok	5640 RPM	600 RPM	NA	144%
+System Board
+Fan6 RPM	Ok	5880 RPM	600 RPM	NA	152%
+
+<Sensor Name>	<Status>	<Reading>	<lc>	<uc>
+CPU1 VCORE PG	Ok	Good	NA	NA
+System Board 3.3V
+PG	Ok	Good	NA	NA
+System Board 5V
+AUX PG	Ok	Good	NA	NA
+CPU1 M23 VPP PG	Ok	Good	NA	NA
+System Board
+1.05V PG	Ok	Good	NA	NA
+CPU1 M23 VDDQ PG	Ok	Good	NA	NA
+CPU1 M23 VTT PG	Ok	Good	NA	NA
+System Board 5V
+SWITCH PG	Ok	Good	NA	NA
+System Board
+VCCIO PG	Ok	Good	NA	NA
+System Board 2.5V
+AUX PG	Ok	Good	NA	NA
+PS1 Voltage 1	Ok	-28.00V	NA	NA
+PS1 Voltage 2	Ok	0.00V	NA	NA
+CPU1 M01 VDDQ PG	Ok	Good	NA	NA
+System Board NDC
+PG	Ok	Good	NA	NA
+CPU1 M01 VPP PG	Ok	Good	NA	NA
+System Board 1.5V
+PG	Ok	Good	NA	NA
+System Board PS2
+PG Fail	Ok	Good	NA	NA
+System Board PS1
+PG Fail	Ok	Good	NA	NA
+System Board 1.5V
+AUX PG	Ok	Good	NA	NA
+CPU1 M01 VTT PG	Ok	Good	NA	NA
+PS1 Voltage 1	Ok	240 V	NA	NA
+
+Page 52 Tables:
+<Sensor Name>	<Status>	<Reading>	<lc>	<uc>
+System Board DIMM
+PG	Ok	Good	NA	NA
+
+<Sensor
+Name>	<Status>	<Reading>	<lc>	<uc>	<Inc> [R/W]	<unc> [R/W]
+PS1 Current
+1	Ok	0.4 Amps	NA	NA	0 Amps [N]	0 Amps [N]
+System
+Board Pwr
+Consumption	Ok	56 Watts	NA	1386 Watts	0 Watts [N]	1260 Watts
+[N]
+
+<Sensor Name>	<Status>	<State>	<lc>	<uc>
+CPU1 Status	Ok	Presence Detected	NA	NA
+CPU2 Status	N/A	Absent	NA	NA
+
+<Sensor Name>	<Status>	<State>	<lc>	<uc>
+DIMM A1	N/A	Presence Detected	NA	NA
+DIMM A2	N/A	Absent	NA	NA
+DIMM A3	Ok	Absent	NA	NA
+DIMM A4	N/A	Absent	NA	NA
+DIMM A5	N/A	Absent	NA	NA
+DIMM A6	N/A	Absent	NA	NA
+DIMM A7	N/A	Absent	NA	NA
+DIMM A8	N/A	Absent	NA	NA
+DIMM A9	N/A	Absent	NA	NA
+DIMM A10	N/A	Absent	NA	NA
+DIMM A11	N/A	Absent	NA	NA
+DIMM A12	N/A	Absent	NA	NA
+DIMM B1	N/A	Absent	NA	NA
+DIMM B2	N/A	Absent	NA	NA
+DIMM B3	N/A	Absent	NA	NA
+DIMM B4	N/A	Absent	NA	NA
+DIMM B5	N/A	Absent	NA	NA
+
+Page 53 Tables:
+<Sensor Name>	<Status>	<State>	<lc>	<uc>
+DIMM B6	N/A	Absent	NA	NA
+DIMM B7	N/A	Absent	NA	NA
+DIMM B8	N/A	Absent	NA	NA
+DIMM B9	N/A	Absent	NA	NA
+DIMM B10	N/A	Absent	NA	NA
+DIMM B11	N/A	Absent	NA	NA
+DIMM B12	N/A	Absent	NA	NA
+
+<Sensor Name>	<Status>	<State>
+Chassis Controller	OK	OK
+
+<Sensor Name>	<Status>	<Reading>	<lc>	<uc>
+System Board CMOS
+Battery	Ok	Present	NA	NA
+PERC1 ROMB
+Battery	Ok	Unknown	NA	NA
+PERC2 ROMB
+Battery	Ok	Unknown	NA	NA
+
+<Sensor Name>	<Status>	<Status>	<lc>	<uc>
+System Board
+Power Optimized	Ok	Not Degraded	NA	NA
+
+<Sensor Name>	<Intrusion>	<Status>
+System Board Intrusion	Closed	Power ON
+
+<Sensor Name>	<Status>	<Type>
+System Board Fan Redundancy	Full Redundant	Fan
+
+Page 54 Tables:
+<Sensor Name>	<Status>	<Type>
+System Board PS Redundancy	Disabled	PSU
+
+<Sensor
+Name>	<Status>	<Reading>	<lc>	<uc>	<Inc> [R/W]	<unc> [R/W]
+System
+Board CPU
+Usage	Non-
+Critical	0%	0%	100%	0% [N]	99% [Y]
+System
+Board IO
+Usage	Non-
+Critical	0%	0%	100%	0% [N]	99% [Y]
+System
+Board MEM
+Usage	Non-
+Critical	0%	0%	100%	0% [N]	99% [Y]
+System
+Board SYS
+Usage	Non-
+Critical	0%	0%	100%	0% [N]	99% [Y]
+
+<Sensor Name>	<PwrConsumption>	<PwrSupplyStatus>	<BoardPwrSupplyStatus>
+Video.Slot.1	4.3MW	Enabled	Disabled
+Video.Slot.3	4.3MW	Enabled	Disabled
+Video.Slot.5	4.3MW	Enabled	Disabled
+Video.Slot.4	4.3MW	Enabled	Disabled
+Video.Slot.8	4.3MW	Enabled	Disabled
+
+<Sensor Name>	<GPU
+Temperature>	<SecondaryGPUT
+emp>	<BoardTemp>	<MemoryTemp>
+Video.Slot.1	29C	255C	255C	255C
+Video.Slot.3	56C	255C	255C	255C
+Video.Slot.5	57C	255C	255C	255C
+Video.Slot.4	32C	255C	255C	255C
+Video.Slot.8	30C	255C	255C	255C
+
+<Sensor
+Name>	<GPU
+Target
+Temp>	<MinGPUH
+wSlowdow
+nTemp>	<GPUShutdow
+nTemp>	<MaxMemoryO
+peratingTem
+p>	<MaxGPUOper
+atingTemp>	<ThermalAle
+rtStatus>	<PowerBrake
+Status>
+Video.Sl
+ot.1	255C	255C	255C	255C	255C	Disabled	Disabled
+Video.Sl
+ot.3	255C	255C	255C	255C	255C	Disabled	Disabled
+Video.Sl
+ot.5	255C	255C	255C	255C	255C	Disabled	Disabled
+
+Page 55 Tables:
+<Sensor
+Name>	<GPU
+Target
+Temp>	<MinGPUH
+wSlowdow
+nTemp>	<GPUShutdow
+nTemp>	<MaxMemoryO
+peratingTem
+p>	<MaxGPUOper
+atingTemp>	<ThermalAle
+rtStatus>	<PowerBrake
+Status>
+Video.Sl
+ot.4	255C	255C	255C	255C	255C	Disabled	Disabled
+Video.Sl
+ot.8	255C	255C	255C	255C	255C	Disabled	Disabled
+
+Sensor Name	Reading
+Max DIMM Temperature	24.000
+
+Sensor Name	Reading
+Temp Sensor.1	51.0C
+
+Sensor Name	Reading
+Power Sensor.2	26.0W
+
+getssninfo	None
+Description	Displays a list of users that are connected to iDRAC. The following information is displayed:
+● Session ID
+● Username
+● IP address (if applicable)
+● Session type
+● Login date and time in MM/DD/YYYY HH:MM:SS format
+NOTE: Based on the Session ID (SSNID) or the user name (User), the iDRAC administrator can
+close the respective sessions or all the sessions using the closessn subcommand. For more
+information, see closessn.
+Synopsis	racadm getssninfo [-u <username>] [-A]
+Input	● -u — displays only sessions associated with a specific user.
+● -A — does not display headers or labels.
+
+SSNID	Type	User	IP Address	Login Date/Time
+58999	SSH	root	192.168.0.10	04/07/2016 12:00:34
+
+Page 56 Tables:
+getsvctag	None
+Description	Displays the service tag of the host system.
+Synopsis	racadm getsvctag
+Output	Any system tag as applicable.
+Example	● Display the service tag of the host system.
+racadm getsvctag
+
+getsysinfo	None
+Description	Displays information related to iDRAC, managed system, and watchdog configuration.
+NOTE: The hostname and OS Name fields in the getsysinfo output display accurate information
+only if the OpenManage Server Administrator (OMSA) is installed on the managed system. If OMSA
+is not installed these fields may be blank or inaccurate. An exception to this are the VMware and
+Windows operating system names, which are displayed even if OMSA is not installed on the managed
+system.
+Synopsis	racadm getsysinfo [-d] [-A] [-c] [-4] [-6]
+Input	● —4—Displays IPv4 settings
+● —6—Displays IPv6 settings
+● —c—Displays common settings
+● —d—Displays iDRAC information
+● —A—Eliminates the printing of headers or labels
+
+Page 57 has no tables.
+Page 58 Tables:
+gettracelog	None
+Description	Lists all the trace login entries of iDRAC.
+Synopsis	● racadm gettracelog [-i]
+● racadm gettracelog [-s <start>] [-c <count>]
+Input	● —i — Displays the number of entries in iDRAC trace log.
+● -c — Specifies the number of records to display.
+● -s — Specifies the starting record to display.
+Output	The default output display shows the record number, timestamp, source and description. The timestamp
+begins at midnight, January 1 and increases until the system starts. After the system starts, the system’s
+timestamp is used.
+Example	● Display entire log
+racadm gettracelog
+● Display number of records in log
+racadm gettracelog -i
+Total Records: 228
+
+racadm gettracelog [-i]
+racadm gettracelog [-s <start>] [-c <count>]
+
+getversion	None
+Description	Displays the current software version, model and generation information, and whether the target device
+can be updated.
+Synopsis	● racadm getversion
+● racadm getversion [-b | -c | —i]
+● racadm getversion [-f <filter>]
+
+Page 59 Tables:
+getversion	None
+Input	● -c — Displays the server's current CPLD version.
+● -b — Displays the server's current BIOS version.
+● -i — Displays the server's current IDSDM version.
+● -f <filter> — Filters the components and must be one of the following values:
+○ bios: BIOS
+○ idrac: iDRAC
+○ lc: Lifecycle Controller
+○ idsdm: SD card
+
+<Server>	<CPLD Version>	<Blade Type>
+server-1	1.0.5	PowerEdgeM520
+server-2	1.0.3	PowerEdgeM610x
+server-4	1.0.0	PowerEdgeM710HD
+server-5	1.0.3	PowerEdgeM710
+server-7	1.0.6	PowerEdgeM620
+server-9	1.0.5	PowerEdgeM520
+
+<Server>	<BIOS Version>	<Blade Type>
+server-1	1.6.0	PowerEdgeM520
+server-2	6.3.0	PowerEdgeM610x
+server-4	7.0.0	PowerEdgeM710HD
+server-5	6.3.0	PowerEdgeM710
+server-7	1.7.1	PowerEdgeM620
+
+Page 60 Tables:
+<Server>	<BIOS Version>	<Blade Type>
+server-9	1.7.1	PowerEdgeM520
+
+<Switch>	<Model Name>	<HW Version>	<FW Version>
+switch-1	MXL 10/40GbE	X01	9-2(0-296)
+switch-2	M8024-k 10GbE SW	A00	5.0.1.3
+switch-3	Dell PowerConnect
+M8024	X00	Not applicable
+switch-4	Dell PowerConnect
+M8024	X00	Not applicable
+switch-5	Dell PowerConnect
+M6348	X02	Not applicable
+switch-6	Dell PowerConnect
+M6220	A01	Not applicable
+
+groupmanager	None
+Description	Allows you to:
+● Delete the group from the group manager.
+● Remove the iDRAC from group by itself by using admin privileges.
+● Join the group using administrator privileges.
+NOTE: This subcommand is supported only on iDRAC9.
+Synopsis	● To delete the group from the group manager.
+groupmanager delete –g <groupname>
+● To remove the iDRAC from group by itself by using administrator privileges.
+groupmanager removeself –g <groupname>
+● To join the group using administrator privileges.
+groupmanager joingroup -g <groupname> -uid <uuid> -pcode <
+grouppasscode>
+Input	● -g— Specifies the name of the iDRAC member group
+● -uid — Specifies the group user id
+● -pcode— Specifies the group passcode
+
+Page 61 Tables:
+groupmanager	None
+Example	● To delete the group from the groupmanager:
+racadm groupmanager delete –g <groupname>
+● To remove the iDRAC from the group by itself:
+racadm groupmanager removeself –g <groupname>
+● To join server to the local iDRAC group:
+racadm groupmanager joingroup -g <mygrpxyz> -uid <uid1234> -pcode
+<12345>
+
+httpsbootcert	None
+Description	Allows you to manage BIOS https Boot Certificate Management operations.
+Synopsis	● To import the bios https Boot Certificate from a remote share or local system
+racadm httpsbootcert help import
+● To export the bios https boot Certificate to a remote share or local system
+racadm httpsbootcert help export
+● To delete the bios https boot certificate
+racadm httpsbootcert help delete
+Input	● -i—Index of the boot device 1 to 4
+● -f—Filename of the bios https Boot Device Certificate
+● -l—Network share location <CIFS/NFS/HTTP/HTTPS share>
+● -u—Username for the remote share
+● -p—Password for the remote share
+NOTE: The supported file formats are .cer,.der,.crt,.pem and .txt.
+NOTE: This command supports both IPV4 and IPV6 formats. IPV6 is applicable for CIFS and NFS
+type remote shares.
+
+Page 62 Tables:
+httpsbootcert	None
+	● To import the boot device cert with index 2 from a remote HTTPS share:
+racadm httpsbootcert import -i 2 -f httpsboot_cert.pem -l https://
+192.168.10.24/share -u myuser -p mypass
+● To iImport the boot device cert with index 3 from a local share using local racadm:
+racadm httpsbootcert import -f httpsboot_cert.crt
+● To import the boot device cert with index 4 from a local share using remote racadm:
+racadm -r 10.94.161.119 -u root -p calvin httpsbootcert import -f
+httpsboot_cert.txt
+● To export the boot device cert with index 1 to a remote CIFS share:
+racadm httpsbootcert export -i 1 -f httpsboot_cert.txt -l //
+10.94.161.103/share -u admin -p mypass
+● To export the boot device cert with index 2 to a remote NFS share:
+racadm httpsbootcert export -i 2 -f httpsboot_cert.cer -l
+192.168.2.14:/share
+● To export the boot device cert with index 2 to a remote HTTP share:
+racadm httpsbootcert export -i 2 -f httpsboot_cert.der -l http://
+192.168.10.24/share -u myuser -p mypass
+● To export the boot device cert with index 2 to a remote HTTPS share:
+racadm httpsbootcert export -i 2 -f httpsboot_cert.crt -l https://
+192.168.10.24/share -u myuser -p mypass
+● To export the boot device cert with index 3 to local share using local racadm:
+racadm httpsbootcert export -f httpsboot_cert.pem
+● To export the boot device cert with index 4 to a local share using remote racadm:
+racadm -r 10.94.161.119 -u root -p calvin httpsbootcert export -f
+httpsboot_cert.txt
+NOTE: These commands do not support setting the proxy parameters if the share location
+is HTTP/HTTPS. To perform the operation with HTTP or HTTPS via a proxy, the proxy
+parameters must be first configured using the lifecyclecontroller.lcattributes group.
+Once these proxy parameters are configured, they become the part of default configuration.
+The proxy attributes should be cleared to end use of the HTTP/HTTPS proxy. The valid
+lifecyclecontroller.lcattributes HTTP/HTTPS proxy parameters are:
+● UserProxyUserName
+● UserProxyPassword
+● UserProxyServer
+● UserProxyPort
+● UserProxyType
+To view the list of proxy attributes, use racadm get lifecycleController.lcAttributes.
+● To delete the boot device cert with index 1:
+racadm httpsbootcert delete -i 1
+● To delete the boot device cert with index 2:
+racadm httpsbootcert delete -i 2
+
+Page 63 Tables:
+hwinventory	None
+Description	Allows you to display or export current internal hardware inventory or shipped hardware inventory by
+device.
+NOTE: iDRAC supports a maximum of 12 parallel sessions of hardware inventory.
+Synopsis	● racadm hwinventory
+● racadm hwinventory networktransceiver
+● racadm hwinventory NIC|FC|Infiniband
+● racadm hwinventory <FQDD>
+● racadm hwinventory export -f <filename> -u <username> -p <password> -l
+<CIFS or NFS share>
+● racadm hwinventory export -f <filename> -u <username> -p <password> -l
+<HTTP or HTTPS share> -port <port number>
+Input	● <FQDD> — Specifies the FQDD of the target device.
+○ FQDD — NIC.Slot.1–2
+NOTE: The hwinventory subcommand supports NIC, Infiniband and FC FQDDs only.
+● -f — Exported Hardware Inventory filename.
+● -u — Username of the remote share to where the file must be exported. Specify user name in a
+domain as domain/username
+● -p — Password for the remote share to where the file must be exported.
+● -l — Network share location to where the Hardware Inventory must be exported.
+● -port — Specifies the port number.
+NOTE: This is an optional parameter. If this option is not specified, the default port number is
+used.
+
+Page 64 has no tables.
+Page 65 has no tables.
+Page 66 has no tables.
+Page 67 has no tables.
+Page 68 has no tables.
+Page 69 has no tables.
+Page 70 has no tables.
+Page 71 has no tables.
+Page 72 has no tables.
+Page 73 has no tables.
+Page 74 has no tables.
+Page 75 has no tables.
+Page 76 has no tables.
+Page 77 has no tables.
+Page 78 has no tables.
+Page 79 has no tables.
+Page 80 has no tables.
+Page 81 has no tables.
+Page 82 has no tables.
+Page 83 has no tables.
+Page 84 has no tables.
+Page 85 has no tables.
+Page 86 has no tables.
+Page 87 has no tables.
+Page 88 has no tables.
+Page 89 has no tables.
+Page 90 has no tables.
+Page 91 has no tables.
+Page 92 has no tables.
+Page 93 has no tables.
+Page 94 Tables:
+ifconfig	None
+Description	Displays the contents of the network interface table. To use this subcommand, you must have the Execute
+Diagnostic Commands permission.
+Synopsis	racadm ifconfig
+Input	N/A
+
+Example	None
+eth0	Link encap:Ethernet HWaddr 00:1D:09:FF:DA:23
+inet addr:192.168.0.0 Bcast:192.168.0.255 Mask:255.255.255.0
+UP BROADCAST RUNNING MULTICAST MTU:1500 Metric:1
+RX packets:2550665 errors:0 dropped:0 overruns:0 frame:0
+TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+collisions:0 txqueuelen:1000
+RX bytes:272532097 (259.9 MiB) TX bytes:0 (0.0 B)
+
+ilkm	None
+Description	The ilkm subcommand allows you to enable or disable ilkm support for a server, and rekey ilkm-supported
+devices on a server. To run this subcommand, you must have the following privileges:
+● Enable—server control and configure iDRAC privileges
+● Disable—server control and configure iDRAC privileges
+● Rekey—server control and configure iDRAC privileges
+● Getstatus—login privileges
+Synopsis	NOTE: To run enable or disable subcommands, the target server must have sekm license.
+● To get ilkm status.
+racadm ilkm getstatus
+
+Page 95 Tables:
+ilkm	None
+	● To enable ilkm feature.
+racadm ilkm enable -keyid <keyID> -passphrase <password>
+● To disable ilkm feature.
+racadm ilkm disable
+● To request iDRAC to rekey all ilkm devices.
+racadm ilkm rekey -oldpassphrase <password> -newkeyid <keyID>
+-newpassphrase <password>
+Input	● -keyid—Key Identifier
+● -passphrase—Password
+● -oldpassphrase—Old Password
+● -newkeyid—New Key ID
+● -newpassphrase—New Password
+Example	● To get ilkm status.
+racadm ilkm getstatus
+● To enable ilkm feature.
+racadm ilkm enable -keyid keyID -passphrase password
+● To disable ilkm feature.
+racadm ilkm disable
+● To request iDRAC to rekey all ilkm devices.
+racadm ilkm rekey -oldpassphrase password -newkeyid keyID
+-newpassphrase pasword
+
+infinibandstatistics	None
+Description	Displays the list of InfiniBand devices managed by the server for which statistics are available.
+Synopsis	● racadm infinibandstatistics <Infiniband FQDD>
+●
+Input	● <Infiniband FQDD> — The fully qualified device descriptor of the device.
+NOTE: Partition Driver State and Partition OS Driver State properties are the same
+for infinibandstatistics.
+
+Page 96 Tables:
+infinibandstatistics	None
+	1 Partition 1
+Port Transmit Data: 0
+Port Receive Data: 0
+Port Transmit Packets: 0
+Port Receive Packets: 0
+Port Transmit Wait: 0
+Port Transmit Discard: 0
+Symbol Error Count: 0
+Link Error Recovery Count: 0
+Link Downed Count: 0
+Port Receive Errors: 0
+Port Receive Remote Physical Errors: 0
+Port Receive Switch Relay Errors: 0
+Local Link Integrity Errors: 0
+Excessive Buffer Overrun: 0
+VL15 Dropped: 0
+Total Bytes Received: Not Applicable
+Total Bytes Transmitted: Not Applicable
+Total Unicast Bytes Received: Not Applicable
+Total Multicast Bytes Received: Not Applicable
+Total Broadcast Bytes Received: Not Applicable
+Total Unicast Bytes Transmitted: Not Applicable
+Total Multicast Bytes Transmitted: Not Applicable
+Total Broadcast Bytes Transmitted: Not Applicable
+FCS Error Packets Received: Not Applicable
+Alignment Error Packets Received: Not Applicable
+False Carrier Error Packets Received: Not Applicable
+Runt Frames Received: Not Applicable
+Jabber Error Frames Received: Not Applicable
+Total Pause XON Frames Received: Not Applicable
+Total Pause XOFF Frames Received: Not Applicable
+Discarded Packets: 0
+Total Pause XON Frames Transmitted: Not Applicable
+Total Pause XOFF Frames Transmitted: Not Applicable
+Single Collision Frames Transmitted: Not Applicable
+Multiple Collision Frames Transmitted: Not Applicable
+Late Collision Frames Transmitted: Not Applicable
+Excessive Collision Frames Transmitted: Not Applicable
+Link Status: Down
+Link Width: Not Available
+Link Speed: Not Available
+Partition Link Status: Up
+Partition Driver State: Operational
+NOTE: When Port, Partition or RDMA statistics are not available, the output displays No Port/
+Partition/RDMA Statistics found for FQDD <Infiniband FQDD>.
+
+inlettemphistory	None
+Description	Displays the average and the peak temperatures during the last hour, day, week, month, or year. Also
+Exports the inlet temperature history data file. The file can be exported to a remote file share, local file
+system, or the management station.
+NOTE: For FM120x4 systems, this subcommand provides the historical data for system board
+temperature.
+
+Page 97 Tables:
+inlettemphistory	None
+Synopsis	● racadm inlettemphistory get
+racadm inlettemphistory export -f <Filename> -u <username> -p
+<password>\
+-l <location> -t <export file type>
+racadm -r <idrac ip> -u <idrac username> -p <idrac password>
+inlettemphistory\
+export -f <Filename> -u <username> -p <password> -l <location> -t
+<export file type>
+●
+This command does not support setting the proxy parameters if the share location (-l) is HTTP/HTTPS.
+To perform the operation with HTTP or HTTPS through a proxy, the proxy parameters must be first
+configured using the lifecyclecontroller.lcattributes. Once these proxy parameters are configured, they
+become the part of default configuration; the proxy attributes should be cleared to end use of the HTTP/
+HTTPS proxy. The valid lifecyclecontroller.lcattributes HTTP/HTTPS proxy parameters are:
+● UserProxyUserName
+● UserProxyPassword
+● UserProxyServer
+● UserProxyPort
+● UserProxyType
+To view the list of proxy attributes, use racadm get lifecycleController.lcAttributes.
+Input	● -f — Exports inlet temperature history filename. The maximum length of this parameter is 64
+characters.
+NOTE: If a file with the specified filename exists, then the older file is replaced with the new history
+file.
+● -u — User name of the remote share to export the file. Specify user name in a domain as domain or
+username.
+● -p — Password for the remote share to where the file must be exported.
+● -l — Network share location to where the inlet temperature history must be exported. The maximum
+length of this parameter is 256 characters.
+NOTE: The supported network locations are CIFS, NFS, HTTP, and HTTPS.
+● -t — Specifies the exported file type. Valid values are xml and csv. These values are case-insensitive.
+NOTE: From firmware RACADM, only export to a remote share is supported. The behavior of remote
+share is not defined when the path specified (-l) contains special characters.
+NOTE: This command supports both IPV4 and IPV6 formats. IPV6 is applicable for CIFS and NFS type
+remote shares.
+
+Page 98 Tables:
+inlettemphistory	None
+	● Export the log to a remote FTP share.
+racadm inlettemphistory export -f Mylog.csv -u ftpuser -p ftppwd -l
+ftp://test.com/share -t csv
+● Export the log to a remote TFTP share.
+racadm inlettemphistory export -f Mylog.csv -l tftp://test.com/share -t
+csv
+● Export the log to local file system using Local RACADM.
+racadm inlettemphistory export -f Mylog.xml -t xml
+● Export the log to management station using Remote RACADM.
+racadm -r 1.2.3.4 -u user -p xxx inlettemphistory export -f Mylog.csv
+-t csv
+● View the inlet temperature history.
+racadm inlettemphistory get
+Duration Above Warning Threshold as Percentage = 0.0%
+Duration Above Critical Threshold as Percentage = 0.0%
+Average Temperatures
+Last Hour = 23C ( 73.4F )
+Last Day = 24C ( 75.2F )
+Last Week = 24C ( 77.0F )
+Last Month = 25C ( 77.0F )
+Last Year = 23C ( 73.4F )
+Peak Temperatures
+Last Hour = 23C ( 73.4F ) [At Wed, 21 May 2017 11:00:57]
+Last Day = 25C ( 77.0F ) [At Tue, 21 May 2017 15:37:23]
+Last Week = 27C ( 80.6F ) [At Fri, 20 May 2017 10:38:20]
+Last Month = 29C ( 84.2F ) [At Wed, 16 May 2017 15:34:13]
+Last Year = 29C ( 84.2F ) [At Wed, 16 May 2017 15:34:13]
+● Configure the proxy parameter.
+racadm set lifecyclecontroller.lcattributes.UserProxyUsername admin1
+● Remove the the proxy parameter.
+racadm set lifecyclecontroller.lcattributes.UserProxyUsername
+● View the list of proxy attributes.
+racadm get lifecycleController.lcAttributes
+
+jobqueue	None
+Description	Enables you to view and delete a job or jobs in the current Job Queue.
+NOTE:
+● To run this subcommand, you must have the Server control privilege.
+
+Page 99 Tables:
+jobqueue	None
+	● If an unexpected error message is displayed for any operation, ensure you delete
+some jobs in the jobqueue and retry the operation.
+● Use jobqueue create command after applying a pending device configuration. Else,
+you may see a job creation and deletion in the lclog.
+● Multi-object Set commands using XML, or JSON files do NOT require a jobqueue
+create command; jobs will be automatically created by the Set command.
+Synopsis	racadm jobqueue view -i<jobid>
+racadm jobqueue delete [-i<jobid>][--all]
+where valid options are -i and --all.
+racadm jobqueue create <fqdd> [-r <reboot type> ] [-s <start
+time> ] [-e <expiry time>]
+racadm jobqueue create <fqdd> [-r <reboot type>] [-s <start
+time>] [-e <expiration time>] [--realtime]
+Input	● -i — Specifies a job ID that is displayed or deleted.
+NOTE: The value JID_CLEARALL will force delete all the possible jobs in the queue.
+● --all — The job IDs that are not applicable are deleted.
+● -fqdd — Specifies an FQDD for which a job should be created.
+● —r <reboot type> — Specifies a reboot type.
+○ none — No Reboot Job. This option is the default value.
+○ pwrcycle — Power cycle.
+○ graceful — Graceful Reboot without forced shut down.
+○ forced — Graceful Reboot with forced shut down.
+● start time — Specifies a start time for job scheduled in the yyyymmddhhmmss
+format. TIME_NOW means immediate. Next Reboot means job is in scheduled state until
+the next manual restart.
+● expiry time — Specifies expiry time for the job execution in the yyyymmddhhmmss
+format. The job must start by this time. TIME_NA means expiry time is not applicable.
+● --realtime — Specifies the real time job.
+NOTE:
+○ --realtime is applicable for storage configuration commands run on
+PowerEdge servers with PERC 9 or newer storage controllers. To check if the
+controller supports realtime capability, run storage get controllers -o
+-p RealtimeConfigurationCapability command.
+○ -r option is not valid for real time configuration.
+
+Page 100 Tables:
+jobqueue	None
+	● Delete all possible jobs from the current job queue.
+racadm jobqueue delete --all
+● Delete a specific job from the current job queue.
+racadm jobqueue delete -i <JobID>
+● To clear all the jobs in the job queue.
+racadm jobqueue delete –i JID_CLEARALL
+● Create a Job for the provided FQDD and add to the job queue.
+racadm jobqueue create NIC.Integrated.1-1 -r pwrcycle -s
+TIME_NOW -e 20120501100000
+NOTE: As RACADM does not support warm boot job creation, you will not observe
+any LCL messages.
+● Create a real time configuration job for the specified RAID controller.
+racadm jobqueue create RAID.Integrated.1-1 -s TIME_NOW --
+realTime
+RAC1024: Successfully scheduled a job.
+Verify the job status using "racadm jobqueue view -i
+JID_xxxxx" command.
+Commit JID = JID_927008261880
+● Create a commit job for InfiniBand objects.
+racadm jobqueue create <InfiniBand FQDD>
+
+krbkeytabupload	None
+Description	Uploads a Kerberos keytab file to iDRAC. To run this subcommand, you must have the Server Control
+privilege.
+Synopsis	racadm krbkeytabupload [-f <filename>]
+<filename> is the name of the file including the path.
+Input	-f — Specifies the filename of the keytab uploaded. If the file is not specified, the keytab file in the
+current directory is selected.
+Output	When successful Kerberos Keytab successfully uploaded to the RAC message is displayed.
+If unsuccessful, appropriate error message is displayed.
+Example	racadm krbkeytabupload -f c:\keytab\krbkeytab.tab
+
+Page 101 Tables:
+lclog	None
+Description	Allows you to:
+● Export the lifecycle log history. The log exports to remote or local share location.
+● View the lifecycle log for a particular device or category
+● Add comment to a record in lifecycle log
+● Add a work note (an entry) in the lifecycle log
+● View the status of a configuration job.
+NOTE:
+● When you run this command on Local RACADM, the data is available to RACADM as a USB partition
+and may display a pop-up message.
+● While Lifecycle Controller is running for racadm commands, you cannot perform other operation
+which needs Lifecycle Controller Partition. If the Lifecycle Controller Partition is unreleased
+(because of improper closure of racadm command in the partition), then you must wait 20-35
+minutes to clear the Lifecycle Controller Partition
+Synopsis	racadm lclog comment edit –q <sequence number> -m <Text to be added>
+racadm lclog view -i <number of records> -a <agent id> -c <category> -s
+<severity> -b <sub-category> -q <sequence no> -n <number of records> -r
+<start timestamp> -e <end timestamp>
+racadm lclog export -f <filename> -u <username> -p <password> -l <CIFS or
+NFS or TFTP or FTP share>
+racadm lclog export -f <filename> -u <username> -p <password> -l <HTTP or
+HTTPS share> -port <port number>
+racadm lclog export -f <filename> -u <username> -p <password> -l <CIFS or
+NFS or TFTP or FTP share> --complete
+racadm lclog export -f <filename> -u <username> -p <password> -l <HTTP or
+HTTPS share> -port <port number> --complete
+racadm -r <idracip> -u <idrac username> -p <idrac password> lclog export\
+-f <filename> -u <username> -p <password> -l <CIFS or NFS or TFTP or FTP
+share>
+racadm -r <idracip> -u <idrac username> -p <idrac password> lclog export\
+-f <filename> -u <username> -p <password> -l <HTTP or HTTPS share>
+-port <port number>
+racadm -r <idracip> -u <idrac username> -p <idrac password> lclog export\
+-f <filename> -u <username> -p <password> -l <CIFS or NFS or TFTP or FTP
+
+Page 102 Tables:
+lclog	None
+	share> -- complete
+racadm -r <idracip> -u <idrac username> -p <idrac password> lclog export\
+-f <filename> -u <username> -p <password> -l <HTTP or HTTPS share> -port
+<port number> -- complete
+racadm lclog viewconfigresult -j <job ID>
+racadm lclog worknote add -m <text to be added>
+Input	● -i—Displays the number of records present in the active log.
+● -a—The agent ID used to filter the records. Only one agent ID is accepted. The value is case-
+insensitive. Valid Agent-ID values:
+○ UEFI_SS_USC
+○ CusOsUp
+○ UEFI_Inventory
+○ iDRAC
+○ UEFI_DCS
+○ SEL
+○ RACLOG
+○ DE
+○ WSMAN
+○ RACADM
+○ iDRAC_GUI
+● -k—Filters the records based on the filter string provided in racadm lclog view command.
+● -c — The category used to filter the records. Provides multiple categories using a "," as the delimiter.
+The value is case-insensitive. Valid category values:
+○ System
+○ Storage
+○ Worknotes
+○ Config
+○ Updates
+○ Audit
+● -b —The subcategory used to filter the records. Provides multiple subcategories using a "," as the
+delimiter.
+● -q—The sequence number from which the records must be displayed. Records older than this
+sequence number is displayed.
+NOTE: This parameter input is an integer. If an alphanumeric input is provided, then invalid
+subcommand syntax error is displayed.
+● -n—Specifies the n number of records that must be displayed. On Local RACADM, if this parameter is
+not specified, by default 100 logs are retrieved.
+● -r—Displays events that have occurred after this time. The time format is yyyy-mm-dd HH:MM:SS.
+The time stamp must be provided within double quotation marks.
+● -e—Displays events that have occurred before this time. The time format is yyyy-mm-dd HH:MM:SS.
+The time stamp must be provided within double quotation marks.
+● -f <filename>—Specifies the file location and name where lifecycle log is exported.
+● -a <name>—Specifies the FTP Server IP address or FQDN, user name, and password.
+● -l <location>—Specifies the location of the network share or area on file system where lifecycle
+log is exported. Two types of network shares are supported:
+○ SMB-mounted path: //<ipaddress or domain name>/<share_name>/<path to
+image>
+
+Page 103 Tables:
+lclog	None
+	○ NFS-mounted path: <ipaddress>:/<path to image>.
+● -u <user>—Specifies the user name for accessing the FTP server, or Domain and user name for
+accessing network share location.
+● -p <password>—Specifies the password for accessing the FTP server or share location.
+● -port <port number>—Specifies the port number.
+NOTE: This is an optional parameter. If this option is not specified, the default port number is used.
+● -s—The severity used to filter the records. Provide multiple severities using a "," as the delimiter. The
+value is case-insensitive. Valid Severity values:
+○ Warning
+○ Critical
+○ Info
+● —m <Comment> —User comment string for a record that must be inserted in the Lifecycle Controller
+log. This comment string must be less than 128 characters. The text must be specified within double
+quotation mark.
+NOTE: HTML-specific characters may appear as escaped text.
+● -m <Worknote>—Adds a worknote (an entry) in the Lifecycle log. This worknote must be less than
+256 characters. The text must be specified within double quotation mark.
+NOTE: HTML-specific characters may appear as escaped text.
+NOTE: For -m <worknote> and —m <comment> options, you need test alert privilege.
+● --complete—Export the complete Lifecycle log as a compressed file. The exported file is of the
+type .xml.gz.
+● -j<Job ID>—Specifies the Job ID.
+
+Page 104 has no tables.
+Page 105 Tables:
+lclog	None
+	● Export the complete Lifecycle Log in gzip format to a remote HTTPS share
+racadm lclog export -f log.xml.gz -u httpsuser -p httpspwd -l https://
+test.com -port 8080
+● Export the Life Cycle Log to a remote HTTP share
+racadm lclog export -f Mylog.xml -u httpuser -p httppwd -l http://
+test.com -port 8080
+● Export the Life Cycle Log to a remote HTTPS share
+racadm lclog export -f Mylog.xml -u httpsuser -p httpspwd -l https://
+test.com -port 8080
+
+License	None
+Description	Manages the hardware licenses.
+Synopsis	● racadm license view [-c <component>]
+● racadm license import [-f <licensefile>] -l <location> -u <username> -p
+<password> -c <component> [-o]
+● racadm license import -u <username> -p <password> -f <license file
+name>\ -l <location> -c <FQDD> [-o]
+● racadm license export -f <license file> [-l <location>] [-u <username>]
+[-p <password>] -e <ID> -c <component>
+● racadm license export -u <username> -p <password> -f <license file
+name>\ -l <location> -t <transaction ID>
+● racadm license export -u <username> -p <password> -f <license file
+name>\ -l <locaton> -e <entitlement ID>
+● racadm license export -u <username> -p <password> -f <license file
+name>\ -l <location> -c <FQDD>
+● racadm license delete -t <transaction ID> [-o]
+● racadm license delete -e <entitlement ID> [-o]
+● racadm license delete -c <component> [-o]
+
+racadm license view [-c <component>]
+racadm license import [-f <licensefile>] -l <location> -u <username> -p
+<password> -c <component> [-o]
+racadm license import -u <username> -p <password> -f <license file
+name>\ -l <location> -c <FQDD> [-o]
+racadm license export -f <license file> [-l <location>] [-u <username>]
+[-p <password>] -e <ID> -c <component>
+racadm license export -u <username> -p <password> -f <license file
+name>\ -l <location> -t <transaction ID>
+racadm license export -u <username> -p <password> -f <license file
+name>\ -l <locaton> -e <entitlement ID>
+racadm license export -u <username> -p <password> -f <license file
+name>\ -l <location> -c <FQDD>
+racadm license delete -t <transaction ID> [-o]
+racadm license delete -e <entitlement ID> [-o]
+racadm license delete -c <component> [-o]
+
+Page 106 Tables:
+License	None
+	● -f — Filename or path to the license file
+● -e <ID> — Specifies the entitlement ID of the license file that must be exported
+● -t <ID> — Specifies the transaction ID.
+● -c <component> — Specifies the component name on which the license is installed.
+● -o — Overrides the End User License Agreement (EULA) warning and imports, replaces or deletes the
+license.
+● -u — Username of the system where the file will be exported.
+● -p — Password of the user on the system where the file will be exported.
+NOTE: Only a user with Server Control and Configure iDRAC privilege can run the import,
+delete, and replace commands.
+NOTE: For export license, you need Login and Configure iDRAC privilege.
+NOTE: This command supports both IPV4 and IPV6 formats. IPV6 is applicable for CIFS and NFS type
+remote shares.
+
+Page 107 has no tables.
+Page 108 Tables:
+netstat	None
+Description	Display the routing table and network statistics.
+Synopsis	racadm netstat
+Privilege
+Required	Debug
+
+networktransceiverstatistics	None
+Description	Displays the statistics for the list of NIC transceivers.
+Synopsis	NOTE: The target server must have iDRAC Datacenter license to run this command.
+
+Page 109 Tables:
+networktransceiverstatistics	None
+	● racadm networktransceiverstatistics
+● racadm networktransceiverstatistics <PORT FQDD>
+● racadm networktransceiverstatistics -all
+Input	● <PORT FQDD>—fully qualified device descriptor of the NIC
+● -all—for all the available network transceivers
+Example	● To display the available network transceivers managed by the server for statistics:
+racadm networktransceiverstatistics
+● To display the statistics of the network transceiver specified by NIC.Integrated.1-1-1:
+racadm networktransceiverstatistics NIC.Integrated.1-1-1
+● To display the statistics of all the network transceivers managed by the server:
+racadm networktransceiverstatistics -all
+
+racadm networktransceiverstatistics
+racadm networktransceiverstatistics <PORT FQDD>
+racadm networktransceiverstatistics -all
+
+nicstatistics	None
+Description	Displays the statistics for the NIC FQDD.
+Synopsis	● racadm nicstatistics
+● racadm nicstatistics <NIC FQDD>
+● racadm hwinventory NIC.Integrated.1-1
+NOTE: Partition Driver State and Partition OS Driver State properties are the same
+for nicstatistics.
+
+racadm nicstatistics
+racadm nicstatistics <NIC FQDD>
+racadm hwinventory NIC.Integrated.1-1
+
+Page 110 Tables:
+pcieslotview	None
+Description	The pcieslotview subcommand is used to display PCIe slot details.
+Synopsis	● racadm pcieslotview
+● racadm pcieslotview --all
+● racadm pcieslotview <slot>
+Input	● <slot> — PCIe slot key.
+● --all — view details of all the PCIe Slots.
+
+Page 111 has no tables.
+Page 112 has no tables.
+Page 113 Tables:
+ping	None
+Description	Verifies if the destination IP address is reachable from iDRAC with the current routing-table contents. A
+destination IP address is required. Based on the current routing-table contents, an ICMP echo packet is
+sent to the destination IP address. To run this subcommand, you must have the Debug privilege.
+Synopsis	racadm ping <ipaddress>
+Input	<ipaddress> — The IP address of the remote endpoint to ping.
+Output	PING 192.168.0 (192.168.0): 56 data bytes64 bytes from 192.168.0: seq=0
+ttl=64 time=4.121 ms
+192.168.0 ping statistics
+1 packets transmitted, 1 packets received, 0 percent packet lossround-
+trip min/avg/max = 4.121/4.121/4.121 ms
+
+ping6	None
+Description	Verifies if the destination IPv6 address is reachable from iDRAC or with the current routing-table
+contents. A destination IPv6 address is required. Based on the current routing-table contents, an ICMP
+echo packet is sent to the destination IPv6 address. To run this subcommand, you must have Debug
+privilege.
+Synopsis	racadm ping6 <ipv6address>
+Input	<ipv6address> — the IPv6 address of the remote endpoint to ping.
+Example	Pinging 2011:de11:bdc:194::31 from 2011:de11:bdc:194::101 with 32 bytes
+of data:
+Reply from 2011:de11:bdc:194::31: time<1ms
+Reply from 2011:de11:bdc:194::31: time<1ms
+Reply from 2011:de11:bdc:194::31: time<1ms
+Reply from 2011:de11:bdc:194::31: time<1ms
+Ping statistics for 2011:de11:bdc:194::31:
+Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+Minimum = 0ms, Maximum = 0ms, Average = 0ms
+
+RACADM Plugin	None
+Description	The plugin subcommand allows you to perform operations on various plugins.
+Synopsis	● racadm plugin view
+● racadm plugin view --all
+● racadm plugin view <FQDD>
+
+Page 114 Tables:
+RACADM Plugin	None
+	● racadm plugin enable <FQDD>
+● racadm plugin disable <FQDD>
+● racadm plugin restart <FQDD>
+● racadm plugin uninstall <FQDD>
+Input	● <FQDD>—Specifies the fully qualified device descriptor of the plugin.
+● --all —Specifies details of all plugins.
+Example	To restart the plugin by FQDD:
+racadm plugin restart Plugin.Integrated.INT.000
+To enable the plugin by FQDD
+racadm plugin enable Plugin.Integrated.INT.000
+To disable the plugin by FQDD
+racadm plugin disable Plugin.Integrated.INT.000
+To uninstall the plugin by FQDD
+racadm plugin uninstall Plugin.Integrated.INT.000
+To view the available plugins
+racadm plugin view
+To view the specific plugin details by FQDD
+racadm plugin view Plugin.Integrated.INT.000
+To display details of all the plugins
+racadm plugin view --all
+
+RACADM Proxy	None
+Description	On the PowerEdge FX2/FX2s systems, you can manage the compute sleds and CMC using
+the iDRAC’s RACADM Proxy feature that redirects commands from iDRAC to CMC. You
+can return the CMC response to local or remote RACADM.to access the CMC configuration and reporting
+features without placing the CMC on the management network. The CMC configuration commands are
+supported through local proxy when local configuration is enabled on iDRAC.
+NOTE: Local racadm and local racadm proxy runs with root user privilege.
+Synopsis	Local RACADM proxy usage
+racadm <CMC racadm subcommand> --proxy
+Remote RACADM proxy usage
+racadm <CMC racadm subcommand> -u <username> -p <password> -r <idrac-ip
+connected to cmc> --proxy
+
+Page 115 Tables:
+RACADM Proxy	None
+	NOTE:
+● The attribute racadm get -g cfgractuning -o cfgRacTuneChassisMgmtAtServer
+must be set as non-zero in CMC.
+● The attribute racadm get system.ChassisControl.ChassisManagementMonitoring
+attribute must be enabled in iDRAC.
+● --proxy must be entered at the end of the command.
+● The root privilege is the default privilege for Local RACADM proxy.
+● The user privilege in the Remote RACADM proxy for CMC maps to iDRAC privilege.
+Table 88. Details of CMC and iDRAC privilege for an operation
+Required iDRAC Privilege for proxy
+Required CMC Privilege for an operation
+operation
+CMC Login User Login
+Chassis Configuration Administrator Configure
+User Configuration Administrator Configure User
+Clear Logs Administrator Logs
+Chassis Control Administrator System Control
+Server Administrator System Control
+Test Alert User System Operations
+Debug Command Administrator Debug
+Fabric x Administrator (where x is A, B, or C) System Control
+● When CMC is not placed on the network, the import, export, and file operation commands to CIFS,
+NFS, or FTP will fail.
+● When the Remote or Local RACADM Proxy operation is in progress, if the iDRAC is reset, then the
+Proxy operation fails and the output is not displayed in Remote or Local RACADM.
+● When racadm getsystem.ChassisControl.ChassisManagementMonitoring attribute is
+set to monitor, all the users including root users can only view the attribute. To configure, set the
+attribute to monitor and manage in CMC.
+Input	● -u — Specifies the user name of the remote share that stores the catalog file.
+● -p — Specifies the password of the remote share that stores the catalog file.
+● -r — Specifies the iDRAC IP address connected to CMC.
+Example	Local RACADM
+racadm getractime --proxy
+Remote RACADM
+racadm getractime -u root -p xxx -r 192.168.0 getractime --proxy
+
+Required CMC Privilege for an operation	Required iDRAC Privilege for proxy
+operation	
+CMC Login User	Login	
+Chassis Configuration Administrator	Configure	None
+User Configuration Administrator	Configure User	None
+Clear Logs Administrator	Logs	None
+Chassis Control Administrator	System Control	None
+Server Administrator	System Control	None
+Test Alert User	System Operations	None
+Debug Command Administrator	Debug	None
+Fabric x Administrator (where x is A, B, or C)	System Control	None
+
+Page 116 Tables:
+racdump	None
+Description	Provides a single command to get dump, status, and general iDRAC board information. To run this
+subcommand, you must have the Debug permission.
+● General System/RAC Information
+● Coredump Information
+● Network Interface Statistics
+● Session Information
+● Process Information
+● RAC Firmware Build Log
+NOTE: The RAC debug logs are not part of Local and Remote RACADM. It is available only on
+Firmware RACADM
+Synopsis	racadm racdump
+Input	N/A
+
+Page 117 has no tables.
+Page 118 Tables:
+racreset	None
+Description	Resets iDRAC. The reset event is logged in the iDRAC log. To run this subcommand, you must have the
+Configure iDRAC permission and configure user privilege.
+NOTE: After you run the racreset subcommand, iDRAC may require up to two minutes to return to a
+usable state.
+Synopsis	racadm racreset soft
+racadm racreset hard
+racadm racreset soft -f
+racadm recreset hard -f
+Input	● -f — This option is used to force the reset.
+Output	racadm racreset
+RAC reset operation initiated successfully. It may take up to a minute
+for the RAC to come online again.
+Example	● iDRAC reset
+racadm racreset
+
+Page 119 Tables:
+racresetcfg	None
+Description	Deletes your current iDRAC configuration and resets iDRAC to the factory default settings based on the
+options provided. If you run racresetcfg from a network client for example, a supported web browser,
+SSH, or Remote RACADM), use the default IP address which is 192.168.0.120. The racresetcfg
+subcommand does not reset the cfgDNSRacName object. To run this subcommand, you must have the
+Configure iDRAC privilege and Configure User privilege.
+NOTE: Certain firmware processes must be stopped and restarted to complete the reset to defaults.
+iDRAC becomes unresponsive for about 30 seconds while this operation completes.
+Synopsis	● RAC reset operation initiated successfully. It may take several minutes for the RAC to come online
+again.
+racadm racresetcfg
+● racadm racresetcfg -f
+● racadm racresetcfg [-all]
+● racadm racresetcfg [-rc]
+Input	● -f—Force racresetcfg. If any vFlash partition creation or formatting is in progress, iDRAC returns a
+warning message. You can perform a force reset using this option.
+● -all—Discard all settings and reset user to shipping value.
+● -rc—Discard all settings and reset user to default user name and password.
+NOTE: When you perform racresetcfg -rc on Stomp and Noble/VRTX servers, by default, the
+DHCP is disabled.
+Example	● Reset the configuration on iDRAC.
+racadm racresetcfg
+The RAC configuration has initiated restoration to factory defaults. Wait up to a minute for this process
+to complete before accessing the RAC again.
+● Reset when vFlash partition creation is in progress.
+racadm racresetcfg
+A vFlash SD card partition operation is in progress. Resetting the iDRAC may corrupt the vFlash SD
+card. To force racresetcfg, use the -f flag.
+● Reset all iDRAC's configurations to default, and preserve the user and network settings.
+racadm racresetcfg -f
+● Reset all iDRAC's configurations to default, and reset the user to shipping value.
+racadm racresetcfg -all
+● Reset all iDRAC's configurations to default, and reset the user to root/calvin.
+racadm racresetcfg -rc
+
+racadm racresetcfg
+racadm racresetcfg -f
+racadm racresetcfg [-all]
+racadm racresetcfg [-rc]
+
+Page 120 Tables:
+Recover sub-command	None
+Description	Allows you to recover the previous version of the firmware.
+NOTE: To run this subcommand, you must have the Server Control privilege.
+Synopsis	To recover the BIOS firmware:
+racadm recover <FQDD>
+NOTE: BIOS.Setup.1-1 is the supported FQDD
+Input	FQDD— Specify the FQDD of the device for which the recovery is required.
+Examples	To recover the BIOS firmware:
+racadm recover BIOS.Setup.1-1
+RAC1234: Recovery operation initiated successfully. Check the Lifecycle logs for the status of the
+operation by running RACADM command "racadm lclog view".
+
+remoteimage	None
+Description	Connects, disconnects, or deploys either media file or directory on a remote server.
+NOTE: Attach directory feature is only supported on 15th generation and newer PowerEdge servers.
+To run this subcommand, you must log in with virtual media privilege for iDRAC.
+Synopsis	● racadm remoteimage -d
+● racadm remoteimage -s
+● racadm remoteimage -c [-u <username> -p <password> -l <image_path>]
+Input	● -c—Connect the image.
+● -d—Disconnect image.
+● -u—User name to access shared folder.
+● -p—Password to access shared folder.
+● -l —Image location on the network share; use single quotation marks around the location.
+● -s —Display current status.
+NOTE: Use a forward slash (/) when providing the image location. If backward slash (\) is used,
+override the backward slash for the command to run successfully. For example:
+racadm remoteimage -c -u user -p xxx -l /\/\192.168.0.2/\CommonShare/
+\diskette
+NOTE: The following options only apply to connect and deploy actions
+● -u —Username. User name to access the network share. For domain users, you can use the following
+formats:
+○ domain/user
+○ domain\user
+
+racadm remoteimage -d
+racadm remoteimage -s
+racadm remoteimage -c [-u <username> -p <password> -l <image_path>]
+
+Page 121 Tables:
+remoteimage	None
+	○ user@domain
+● -p —Password to access the network share.
+Example	● Disable Remote File Sharing.
+● racadm remoteimage -d Disable Remote File Started. Please check status
+using -s option to know Remote File Share is ENABLED or DISABLED.
+● Check Remote File Share status.
+● racadm remoteimage -s Remote File Share is Enabled UserName Password
+ShareName //192.168.0/xxxx/dtk_3.3_73_Linux.iso
+● Deploy a remote image on iDRAC CIFS Share.
+● racadm remoteimage -c -u admin -p xxx -l //192.168.0.32/dev/OM840.iso
+● Deploy a remote image on iDRAC NFS Share.
+● racadm remoteimage -c -u root -p password -l '192.168.1.113:/opt/nfs/Test
+NOTE: In the above example, Test is a folder name .
+● Deploy a remote image on iDRAC HTTP Share.
+● racadm remoteimage -c -u "user" -p "xxx" -l http://shrloc/foo.iso
+● Deploy a remote image on iDRAC HTTPS Share.
+● racadm remoteimage -c -u "user" -p "xxx" -l https://shrloc/foo.iso
+NOTE: -p and -u options are not mandatory in case of HTTP/HTTPS based remoteimage commands.
+
+remoteimage2	None
+Description	Connects, disconnects, or deploys either media file or directory on a remote server. To run this
+subcommand, you must log in with virtual media privilege for iDRAC.
+NOTE: Use this command to attach second remote image simultaneously.
+NOTE: Attach directory feature is only supported on 15th generation and newer PowerEdge servers.
+Synopsis	● racadm remoteimage2 -d
+● racadm remoteimage2 -s
+● racadm remoteimage2 -c [-u <username> -p <password> -l <image_path>]
+Input	● -c—Connect the image.
+● -d—Disconnect image.
+● -u—User name to access shared folder.
+● -p—Password to access shared folder.
+● -l —Image location on the network share; use single quotation marks around the location.
+● -s —Display current status.
+NOTE: Use a forward slash (/) when providing the image location. If backward slash (\) is used,
+override the backward slash for the command to run successfully. For example:
+racadm remoteimage2 -c -u user -p xxx -l /\/\192.168.0.2/\CommonShare/
+\diskette
+NOTE: The following options only apply to connect and deploy actions
+
+racadm remoteimage2 -d
+racadm remoteimage2 -s
+racadm remoteimage2 -c [-u <username> -p <password> -l <image_path>]
+
+Page 122 Tables:
+remoteimage2	None
+	● -u —Username. User name to access the network share. For domain users, you can use the following
+formats:
+○ domain/user
+○ domain\user
+○ user@domain
+● -p —Password to access the network share.
+Example	● Disable Remote File Sharing.
+racadm remoteimage2 -d
+Disable Remote File Started. Please check status using -s option to
+know Remote File Share is ENABLED or DISABLED.
+● Check Remote File Share status. racadm remoteimage2 -s Remote File Share is
+Enabled UserName Password ShareName //192.168.0/xxxx/dtk_3.3_73_Linux.iso
+● Deploy a remote image on iDRAC CIFS Share. racadm remoteimage2 -c -u admin -p xxx
+-l //192.168.0.32/dev/Test
+NOTE: In the above example, Test is a folder name.
+● Deploy a remote image on iDRAC NFS Share. racadm remoteimage2 -c -u root -p
+password -l '192.168.1.113:/opt/nfs/OM840.iso
+● Deploy a remote image on iDRAC HTTP Share.
+racadm remoteimage2 -c -u "user" -p "xxx" -l http://shrloc/foo.iso
+● Deploy a remote image on iDRAC HTTPS Share. racadm remoteimage2 -c -u "user" -p
+"xxx" -l https://shrloc/foo.iso
+NOTE: -p and -u options are not mandatory in case of HTTP/HTTPS based remoteimage2
+commands.
+
+rollback	None
+Description	Allows you to roll back the firmware to an earlier version.
+Synopsis	racadm rollback <FQDD> [--reboot]
+NOTE: To get the list of available rollback versions and FQDDs, run the racadm swinventory
+command.
+Input	● <FQDD>: Specify the FQDD of the device for which the rollback is required.
+● --reboot: Performs a graceful system reboot after the BIOS firmware rollback.
+Example	● To perform BIOS firmware rollback:
+racadm rollback iDRAC.Embedded.1-1
+RAC1056: Rollback operation initiated successfully.
+● To perform a graceful system reboot after BIOS firmware rollback:
+racadm rollback BIOS.Setup.1-1 --reboot
+
+Page 123 Tables:
+sekm	None
+Description	The sekm subcommand is used to enable and disable sekm support for a server, rekey sekm-supported
+devices on a server, and test the SSL connection to a given sekm server. To run this subcommand, you
+must have the following privileges:
+● Enable—server control and configure iDRAC privileges
+● Disable—server control and configure iDRAC privileges
+● Rekey—server control and configure iDRAC privileges
+● Testserverconnection—server control and configure iDRAC privileges
+● Getstatus—login privileges
+Synopsis	NOTE: To run enable, disable, and testserverconnection commands, the target server must have sekm
+license.
+racadm sekm getstatus
+racadm sekm enable
+NOTE: When you execute racadm sekm enable, a job ID is returned, query this job id to see the
+status of sekm. If the query reports failure, check the job ID config results or Lifecycle Controller(LC)
+logs to find the reason for failure.
+racadm sekm disable
+racadm sekm disable -purgeKMSKeys
+racadm sekm rekey <IDRAC FQDD>
+racadm sekm testserverconnection -p -i <index of the sekm server>
+racadm sekm testserverconnection -s -i <index of the sekm server>
+racadm sekm enable -passphrase <password>
+Input	● -i—Index of the sekm server to test
+● -p—Indicates primary sekm server
+● -s—Indicates secondary sekm server
+● -purgeKMSKeys—Purge the Key Management Server keys
+● -passphrase—To enter a passphrase when updating encryption mode from iLKM to sekm.
+
+Page 124 Tables:
+sekm	None
+	To disable sekm feature and purge KMS keys:
+racadm sekm disable -purgeKMSKeys
+To request iDRAC to rekey all the devices:
+racadm sekm rekey iDRAC.Embedded.1
+To test primary sekm server connection:
+racadm sekm testserverconnection -p -i 1
+To test the secondary sekm server connection:
+racadm sekm testserverconnection -s -i 1
+To change security mode to sekm from ilkm:
+racadm sekm enable -passphrase password
+NOTE: Only one primary server is supported. Option -i should be 1.
+NOTE: For sekm getstatus, the returned values and their meaning are as follows:
+● Disabled—sekm functionality has been disabled on iDRAC and no sekm functions are available.
+● Enabled—sekm functionality has been enabled on iDRAC and all sekm functions are available.
+● Failed—iDRAC is unable to communicate with the sekm server.
+● Unverified Changes Exist—Changes have been made to the sekm configuration but not yet
+enabled using the racadm sekm enable command.
+
+serialcapture	None
+Description	The serialcapture subcommand is used to is used to export and clear serial data captured from the system.
+To run this subcommand, you must have the following privileges:
+Synopsis	NOTE: To run clear and export commands, the target server must have iDRAC Datacenter license.
+To clear serial data.
+racadm serialcapture clear
+To export serial data.
+racadm serialcapture export -u <shareuser> -p <sharepassword> -l <NFS/
+CIFS/HTTP/HTTPS share> -f <FileName>
+Input	● -f—Filename of the exported serial data.
+● -u—Username of the remote share to where the file must be exported. The username must be
+specified as domain/username.
+● -p—Password for the remote share to where the file must be exported.
+● -l—Network share location to where the serial data captured must be exported. For more information
+on NFS or CIFS or HTTP or HTTPS share, see section on Usage examples.
+
+Page 125 Tables:
+serialcapture	None
+Example	To clear serial data buffer.
+racadm serialcapture clear
+To export serial data to CIFS share.
+racadm serialcapture export -u cifsuser -p cifspassword -l //1.2.3.4/
+cifsshare -f datafile
+To export serial data to NFS share.
+racadm serialcapture export -u nfssuser -p nfspassword -l 1.2.3.4:/
+nfsshare -f datafile
+To export serial data to HTTP share.
+racadm serialcapture export -u httpuser -p httppassword -l http:/1.2.3.4/
+httpshare -f datafile
+To export serial data to HTTPS share.
+racadm serialcapture export -u httpsuser -p httpspassword -l https:/
+1.2.3.4/cifsshare -f datafile
+
+sensorsettings	None
+Description	Allows you to perform threshold settings of the sensor. To run this subcommand, you must have
+Configure iDRAC privilege.
+NOTE: An error message is displayed when the following is performed:
+● A set operation is performed on an unsupported FQDD.
+● Out of range settings is entered.
+● Invalid sensor FQDD is entered.
+● Invalid threshold level filter is entered.
+Synopsis	racadm sensorsettings set <FQDD> -level Min <value>
+Input	● <FQDD> — Sensor or corresponding sensor FQDD which needs a threshold configuration. Run
+the command, racadm getsensorinfo to view the sensor FQDD. The R/W field in the output
+getsensorinfo indicates if the sensor thresholds can be configured. Replace the <FQDD> field with the
+corresponding sensor FQDD that needs a threshold configuration.
+● -level — threshold level for the sensor setting. Values are Max or Min.
+Examples	To set the minimum noncritical threshold level for a power sensor type.
+racadm sensorsettings set iDRAC.Embedded.1#SystemBoardCPUUsage -level Max
+95
+NOTE: The entered value must be lesser or higher than the sensor critical threshold limit.
+
+Page 126 Tables:
+serveraction	None
+Description	Enables you to perform power management operations on the blade system. To run this subcommand, you
+must have the Execute Server Control Commands permission.
+Synopsis	racadm serveraction <action> -f
+Input	<action> — Specifies the power management operation to perform. The options are:
+● hardreset — Performs a force reset (reboot) operation on the managed system.
+● powercycle — Performs a power-cycle operation on the managed system. This action is similar to
+pressing the power button on the system’s front panel to turn off and then turn on the system.
+● powerdown — Powers down the managed system.
+● powerup — Powers up the managed system.
+● powerstatus — Displays the current power status of the server (ON or OFF).
+● graceshutdown — Performs a graceful shutdown of the server. If the operating system on the
+server cannot shut down completely, then this operation is not performed.
+● nmi — Generates the Non-masking interrupt (NMI) to halt the system operation. The NMI sends a
+high-level interrupt to the operating system, which causes the system to halt the operation to allow
+critical diagnostic or troubleshooting activities.
+NOTE:
+The halt system operation does not occur on systems running the Linux operating system.
+● -f — Force the server power management operation. This option is applicable only for the PowerEdge-
+VRTX platform. It is used with powerdown,powercycle, and hardreset options.
+NOTE: The actionpowerstatus is not allowed with -a option.
+Output	Displays an error message if the requested operation is not completed, or a success message if the
+operation is completed.
+Example	Get Power Status on iDRAC
+racadm serveraction powerstatus
+Server Power Status: ON
+racadm serveraction powercycle
+Server power operation successful
+
+setled	None
+Description	Sets the state (blinking or not blinking) of the LED on the specified module. To run this subcommand, you
+must have the Configure iDRAC permission.
+Synopsis	racadm setled -l <ledState>
+Input	● -l <ledState> — Specifies the LED state. The values are:
+○ 0 — No Blinking
+○ 1 — Blinking
+
+Page 127 Tables:
+setled	None
+Example	● From iDRAC stop LED from blinking.
+racadm setled -l 0
+RAC0908: System ID LED blink off.
+● From iDRAC start LED to blink.
+racadm setled -l 1
+RAC0907: System ID LED blink on.
+
+setniccfg	None
+Description	Sets the iDRAC IP address for static and DHCP modes. To run this subcommand, you must have the
+Configure iDRAC privilege.
+NOTE: The terms NIC and Ethernet management port may be used interchangeably.
+Synopsis	● racadm setniccfg -d
+● racadm setniccfg -d6
+● racadm setniccfg -s <IPv4Address> <netmask> <IPv4 gateway>
+● racadm setniccfg -s6 <IPv6 Address> <IPv6 Prefix Length> <IPv6 Gateway>
+● racadm setniccfg -o
+Input	● -d — Enables DHCP for the NIC. It is enabled by default.
+● -d6 — Enables AutoConfig for the NIC (default is disabled).
+● -s — Enables static IP settings. The IPv4 address, netmask, and gateway must be specified.
+Otherwise, the existing static settings are used. <ipaddress>, <netmask>, and <gateway> must
+be typed as dot-separated strings.
+racadm setniccfg -s 192.168.0 255.255.255.0 192.168.0
+● -s6 — Enables static IPv6 settings. The IPv6 address, Prefix Length, and the IPv6 Gateway can be
+specified.
+● -o — Enable or disable NIC.
+Example	● To Configure static IPv4 address for iDRAC NIC
+racadm setniccfg -s 192.168.0 255.255.255.0 192.168.0
+Static IP configuration enabled and modified successfully
+● Configure DHCP mode for iDRAC IPv4
+racadm setniccfg -d
+DHCP is now ENABLED
+● Configure DHCP mode for iDRAC IPv6
+racadm setniccfg -d6
+DHCP6 is now ENABLED
+
+racadm setniccfg -d
+racadm setniccfg -d6
+racadm setniccfg -s <IPv4Address> <netmask> <IPv4 gateway>
+racadm setniccfg -s6 <IPv6 Address> <IPv6 Prefix Length> <IPv6 Gateway>
+racadm setniccfg -o
+
+Page 128 Tables:
+spdm	None
+Description	The spdm command is used to display inventory of spdm capable devices, list spdm capable FQDDs, and to
+collect and export the hardware and software identity of spdm devices.
+NOTE: This command is enabled for Emulex cards only.
+Synopsis	racadm spdm list
+racadm spdm <FQDD>
+racadm spdm export -f <filename> -c <FQDD> -t <identity cert type> -u
+<username> -p <password> -l <CIFS/NFS share>
+Input	● -f <filename>—File name
+● -c <FQDD>—FQDD of SPDM device
+● -t <identity cert type>—Type of identity
+○ t 0 — Hardware identity
+NOTE: SPDM command only supports hardware identification certificates.
+● -u <username>—Username for the remote share where the file must be exported. Username in a
+domain can be given as domain/username.
+● -p <password>—Password for the remote share where the file must be exported.
+● -l <CIFS/NFS share>—Network share location where the SPDM identity must be exported.
+Example	To list the FQDDs which are spdm capable:
+racadm spdm list
+To display the inventory of spdm capable devices:
+racadm spdm FC.Slot.1-1
+To export the hardware identity to a remote CIFS share::
+racadm spdm export -f MyCert.cert -c FC.Slot.1-1 -t 0 -u admin -p mypass
+-l //10.94.161.103/share
+To export the hardware identity to a remote NFS share::
+racadm spdm export -f MyCert.cert -c FC.Slot.1-1 -t 0 -u admin -p mypass
+-l 10.94.161.103:/share
+
+sshpkauth	None
+Description	Enables you to upload and manage up to 4 different SSH public keys for each user. You can upload a key
+file or key text, view keys, or delete keys. This command has three mutually exclusive modes determined
+by the options — upload, view, and delete. To run this subcommand, you must have Configure user
+privilege.
+Synopsis	● racadm sshpkauth -i svcacct -k <key_index> -t <PK_key_text>
+
+Page 129 Tables:
+sshpkauth	None
+	● racadm sshpkauth -i svcacct -k <key_index> -f <PK_key_text>
+● racadm sshpkauth -v -i svcacct -k all|<key_index>
+● racadm sshpkauth -d -i svcacct -k all|<key_index>
+Input	● -i <user_index> — Index for the user.
+● -k [<key_index> | all] — Index to assign the PK key being uploaded. all only works with the
+-v or -d options. <key_index> must be between 1 to 4 or all on iDRAC.
+● -t <PK_Key_Text> — Key text for the SSH Public key.
+● -f <filename> — File containing the key text to upload.
+NOTE: The -f option is not supported on SSH or serial RACADM.
+● -v — View the key text for the index provided.
+● -d — Delete the key for the index provided.
+
+racadm sshpkauth -i svcacct -k <key_index> -f <PK_key_text>
+racadm sshpkauth -v -i svcacct -k all|<key_index>
+racadm sshpkauth -d -i svcacct -k all|<key_index>
+
+Page 130 Tables:
+sslcertdelete	None
+Description	Command to delete a custom signing certificate from iDRAC. To run this subcommand for web server
+certificates, you must have Login to iDRAC and Configure iDRAC privileges and for others only
+Configure iDRAC privilege is required.
+Synopsis	● racadm sslcertdelete -t <type>
+● racadm sslcertdelete -t 8 -i <instance(1 or 2)>
+Input	● -t—Specifies the type of certificate to delete. The type of certificate is:
+○ 3—Custom signing certificate
+○ 4—Client trust certificate for SSL
+○ 6—SEKM SSL certificate
+○ 7—KMS CA certificate
+○ 8—Rsyslog Server CA
+○ 12—Rsyslog Server CA cert
+○ 13—Rsyslog Client trust cert
+○ 16—Custom certificate
+● -i—Instance value should be 1 or 2. This is applicable only for Rsyslog Server CA certificate(-t 8).
+Output	The following information is displayed:
+● The custom signing certificate was deleted.
+● The iDRAC resets and may be offline temporarily.
+● Telemetry certificate deleted successfully.
+Example	● Use Remote RACADM to delete the custom signing certificate.
+$ racadm -r 192.168.0 -u root -p xxx sslcertdelete -t 3
+● Use Remote RACADM to delete the Client Trust certificate for SSL.
+$ racadm -r 192.168.0 -u root -p xxx sslcertdelete -t 4
+● Use Remote RACADM to delete the telemetry certificate.
+racadm -r 192.168.0 -u root -p xxx sslcertdelete -t 8 -i 1
+
+sslcertdownload	None
+Description	Downloads an SSL certificate from iDRAC to the client’s file system. To run this subcommand for web
+server certificates, you must have Login to iDRAC and Configure iDRAC privileges and for others only
+Control and Configure System privilege is required.
+NOTE: This subcommand is only supported on the remote interface(s).
+Synopsis	● racadm sslcertdownload -f <filename> -t <type>
+● racadm sslcertupload -t 8 -i <instance(1 or 2)>
+Input	● -f—Specifies the target filename on local file system to download the certificate.
+● -t <type>—Specifies the type of certificate to download, either the CA certificate for Directory
+Service or the server certificate.
+○ 1—Server Certificate
+○ 2—Active Directory
+
+Page 131 Tables:
+sslcertdownload	None
+	○ 3—Custom Signing Certificate
+○ 4—Client Trust Certificate for SSL
+○ 6—SEKM SSL certificate
+○ 7—KMS CA certificate
+○ 8—Rsyslog Server CA
+○ 9—RSA CA certificate
+○ 10—SCEP CA certificate
+○ 11—SCV Signed Certificate
+NOTE: This input is available for local RACADM only.
+○ 12—Rsyslog Server CA Cert
+○ 13—Rsyslog Client trust Cert
+○ 14—IEEE 802.1X Custom Certificate
+○ 15—IEEE 802.1X Server CA Certificate
+○ 16—Custom certificate
+○ 17—IEEE 802.1X Custom Signing Certificate
+● -i—Instance value should be 1 or 2. This is only applicable for Rsyslog Server CA Certificate(-t 8).
+Output	● Returns 0 when successful and non-zero number when unsuccessful.
+● racadm sslcertdownload -t 8 -i 1 Telemetry certificate downloaded successfully.
+Example	● Download server certificate:
+racadm -r 192.168.0 -u root -p xxx sslcertdownload -t 1 -f cert.txt
+● Download Active Directory certificate:
+racadm -r 192.168.0 -u root -p xxx sslcertdownload -t 2 -f ad_cert.txt
+● Download telemetry certificate:
+racadm -r 192.168.0 -u root -p xxx sslcertdownload -t 8 -i 1
+
+sslcertupload	None
+Description	Uploads a custom SSL server or CA certificate for Directory Service from the client to iDRAC. To run
+this subcommand, you must have the following privilege:
+● Active Directory certificate - Configure iDRAC and Configure Users.
+● Public Key Cryptography Standards (PKCS) format - Configure iDRAC.
+● Client Trust certificate for SSL format - Configure iDRAC
+● Web server certificate- Login to iDRAC and Configure iDRAC
+NOTE: For this command, files without extension or no extension are allowed.
+Synopsis	● racadm sslcertupload -t <type> -f <filename> -p <passphrase>
+● racadm sslcertupload -t 8 -i <instance(1 or 2)>
+Input	● -f—Specifies the source filename in the local file system of the certificate uploaded.
+● -p—Pass phrase for the Public Key Cryptography Standards file.
+● -t—Specifies the type of certificate to upload. The type of certificate must be:
+
+Page 132 Tables:
+sslcertupload	None
+	○ 1—Server certificate
+○ 2—CA certificate for Directory Service
+○ 3—Public Key Cryptography Standards (PKCS) format
+○ 4—Client Trust certificate for SSL format
+○ 6—SEKM SSL certificate
+○ 7—KMS CA certificate
+○ 8—Rsyslog Server CA
+○ 9—RSA CA certificate
+○ 10—SCEP CA certificate
+○ 12—Rsyslog Server CA Cert
+○ 13— Rsyslog Client trust Cert
+○ 14— IEEE 802.1X Custom Certificate
+○ 15— IEEE 802.1X Server CA Certificate
+○ 16—Custom certificate
+○ 17— IEEE 802.1X Custom Signing Certificate
+● -i—Instance value should be 1 or 2. This is applicable only for Rsyslog Server CA certificate(-t
+8).
+Output	● racadm -r 192.168.0.2 -u root -p xxx sslcertupload -t 2 -f cert.txt
+Certificate that is successfully uploaded to the RAC.
+● racadm sslcertupload -t 8 -i 1 Telemetry certificate uploaded successfully.
+Example	● Uploading a server certificate:
+racadm -r 192.168.0.2 -u root -p xxx sslcertupload -t 1 -f cert.txt
+● Uploading web server certificate and key:
+racadm -r 192.168.0.2 -u root -p xxx sslcertupload -t 6 -f cert.txt
+-k key.txt
+● Uploading Active Directory certificate:
+racadm -r 192.168.0.2 -u root -p xxx sslcertupload -t 2 -f
+ad_cert.txt
+● Uploading Client Trust certificate for SSL:
+racadm -r 192.168.0.2 -u root -p xxx sslcertupload -t 4 -f
+https_cert.cer
+● Uploading a telemetry certificate:
+racadm -r 192.168.0.2 -u root -p xxx sslcertupload -t 8 -i 1
+
+sslcertview	None
+Description	Displays the SSL server or CA certificate that exists on iDRAC.
+Synopsis	● racadm sslcertview -t <type> [-A]
+● racadm sslcertview -t <type> -i <instance>
+Input	● -t—Specifies the type of certificate to view:
+○ 1—Server Certificate
+
+Page 133 Tables:
+sslcertview	None
+	○ 2—Active Directory
+○ 4—Client Trust certificate for SSL
+○ 6—SEKM SSL certificate
+○ 7—KMS CA certificate
+○ 8—Rsyslog CA certificate
+○ 9—RSA CA certificate
+○ 10—SCEP CA certificate
+○ 12—Rsyslog Server CA cert
+○ 13—Rsyslog Client trust cert
+○ 14—IEEE 802.1X Custom Certificate
+○ 15—IEEE 802.1X Server CA Certificate
+○ 17—IEEE 802.1X Custom Signing Certificate
+● -A—Prevents printing headers or labels.
+● -i—Instance value should be 1 or 2. This is applicable only for Rsyslog Server CA certificate (-t 8)
+NOTE: If a certificate is generated using a comma ‘,’ as one of the parameters, command displays the
+partial name in the following fields only until the comma:
+● Organization Name
+● Common Name
+● Location Name
+● State Name
+The rest of the string is not displayed.
+Output	● racadm sslcertview -t 1
+Serial Number 01
+Subject Information:
+Country Code (CC) US
+State (S) Texas
+Locality (L) Round Rock
+Organization (O) Dell Inc.
+Organizational Unit (OU) Remote Access Group
+Common Name (CN) iDRAC Default certificate
+Issuer Information:
+Country Code (CC) US
+State (S) Texas
+Locality (L) Round Rock
+Organization (O) Dell Inc.
+Organizational Unit (OU) Remote Access Group
+Common Name (CN) iDRAC Default certificate
+Valid From May 15 23:54:19 2017 GMT
+Valid To May 12 23:54:19 2027 GMT
+
+Page 134 Tables:
+sslcertview	None
+	● racadm sslcertview -t 1 -A
+00
+US
+Texas
+Round Rock
+Dell Inc.
+Remote Access Group
+iDRAC default certificate
+US
+Texas
+Round Rock
+Dell Inc.
+Remote Access Group
+iDRAC default certificate
+May 15 23:54:19 2017 GMT
+May 12 23:54:19 2027 GMT
+Example	● To view the server certificate:
+racadm -r 192.168.0.2 -u root -p xxx sslcertview -t 1
+racadm -r 192.168.0.2 -u root -p xxx sslcertview -t 8 -i 1
+● To view the server certificate with headers and labels omitted:
+racadm -r 192.168.0.2 -u root -p xxx sslcertview -t 1 -A
+racadm -r 192.168.0.2 -u root -p xxx sslcertview -t 8 -i 1 -A
+
+Page 135 Tables:
+sslcsrgen	None
+Description	Generates and downloads a certificate signing request (CSR) file to the client’s local file system. The CSR
+can be used for creating a custom SSL certificate that can be used for SSL transactions on iDRAC. To run
+this subcommand, you must have the Configure iDRAC privilege.
+Synopsis	● racadm sslcsrgen -g
+● racadm sslcsrgen [-g] [-f <filename>]
+● racadm sslcsrgen -s
+● racadm sslcsrgen –g -t <csr_type>
+● racadm sslcsrgen -g -f <filename> -t <csr_type>
+● racadm sslcsrgen -s -t <csr_type>
+Input	● -g—Generates a new CSR.
+● -s—Returns the status of a CSR generation process (generation in progress, active, or none).
+● -f—Specifies the filename of the location, <filename>, where the CSR is downloaded.
+NOTE: The -f option is only supported on the remote interfaces.
+● -t —Specifies the type of CSR to be generated. The options are:
+○ 1—SSL cert
+○ 2—Factory Identity Cert
+○ 3—SEKM SSL Cert
+○ 4—Rsyslog SSL Cert
+Output	If no options are specified, a CSR is generated and downloaded to the local file system as sslcsr by
+default. The -g option cannot be used with the -s option, and the -f option can only be used with the -g
+option. The sslcsrgen -s subcommand returns one of the following status codes:
+● CSR was generated successfully.
+● CSR does not exist.
+
+racadm sslcsrgen -g
+racadm sslcsrgen [-g] [-f <filename>]
+racadm sslcsrgen -s
+racadm sslcsrgen –g -t <csr_type>
+racadm sslcsrgen -g -f <filename> -t <csr_type>
+racadm sslcsrgen -s -t <csr_type>
+
+Page 136 Tables:
+sslcsrgen	None
+	● Display the status of the current CSR operation for Rsyslog SSL Cert
+racadm sslcsrgen -s -t 4
+
+sslkeyupload	None
+Description	Uploads SSL key from the client to iDRAC. To run this subcommand, you must have the Login and
+Configure iDRAC privileges.
+Synopsis	racadm sslkeyupload -t <type> -f <filename>
+Input	● -t — Specifies the key to upload. The value is:
+○ 1 — SSL key used to generate the server certificate.
+● -f — Specifies the filename of the SSL key that must be uploaded.
+Output	If upload is successful, the message SSL key successfully uploaded to the RAC is displayed. if
+upload is unsuccessful, error message is displayed.
+Example	racadm sslkeyupload -t 1 -f c:\sslkey.txt
+
+sslresetcfg	None
+Description	Restores the web-server certificate to factory default and restarts web-server. The certificate takes effect
+30 seconds after the command is entered. To run this subcommand, you must have the Configure iDRAC
+privilege.
+Synopsis	racadm sslresetcfg
+Input	N/A
+Example	racadm sslresetcfg
+Web server is restarting to complete the certificate update. Please wait
+for a few minutes for this process to complete.
+
+Page 137 Tables:
+storage	None
+Description	Allows you to run the commands to control storage arrays. To run this subcommand for configuring the
+storage properties, you must have the server control permission.
+Synopsis	Inventory
+NOTE: You can also run the command using raid in place of the storage command.
+● To view the help details for get command, run the following command:
+racadm storage help get
+● To generate and view information about the inventory of storage root node, run the following
+command:
+racadm storage get status
+● To generate and view information about the inventory of controllers, run the following command:
+racadm storage get controllers -o
+racadm storage get controllers -o -p <property names separated by comma>
+● To get the list of controllers, run the following command:
+racadm storage get controllers
+● To get the properties of a controller, run the following command:
+racadm storage get controllers:<Controller FQDD>
+NOTE: HBA, BOSS and PERC controllers connected through slimline cable will have FQDDs starting
+with SL. Example - NonRaid.SL.5-1, AHCI.SL.5-1, RAID.SL.5-1 and so on.
+● To generate and view information about the inventory of batteries, run the following command:
+racadm storage get batteries -o
+racadm storage get batteries --refkey <Controller FQDDs separated by
+comma>
+racadm storage get batteries --refkey <Controller FQDDs separated by
+comma> -o
+racadm storage get batteries --refkey <Controller FQDDs separated by
+comma> -o -p <property names separated by comma>
+● To generate and view information about the inventory of virtual disks, run the following command:
+racadm storage get vdisks
+racadm storage get vdisks --refkey <Controller FQDDs separated by
+comma>
+racadm storage get vdisks --refkey <Controller FQDDs separated by
+comma> -o
+racadm storage get vdisks --refkey <Controller FQDDs separated by
+comma> -o -p <property names separated by comma>
+
+Page 138 Tables:
+storage	None
+	● To generate and view information about the inventory of enclosures, run the following command:
+NOTE: FQDD of certain Backplanes may not be the same in Software Inventory and Hardware
+Inventory.
+racadm storage get enclosures -o
+racadm storage get enclosures --refkey <Connector FQDDs separated by
+comma>
+racadm storage get enclosures --refkey <Connector FQDDs separated by
+comma> -o -p <property names separated by comma>
+● To get the list of enclosures, run the following command:
+racadm storage get enclosures
+● To get the properties of an enclosure, run the following command:
+racadm storage get enclosures:<Enclosure FQDD>
+● To generate and view information about the inventory of physical disk drives, run the following
+command:
+racadm storage get pdisks
+racadm storage get pdisks -o
+racadm storage get pdisks -o -p <property names separated by comma>
+racadm storage get pdisks --refkey <Enclosure/Backplanes FQDDs
+separated by comma>
+racadm storage get pdisks --refkey <Enclosure/Backplanes FQDDs
+separated by comma> -o
+racadm storage get pdisks --refkey <Enclosure/Backplanes FQDDs
+separated by comma> -o -p <property names separated by comma>
+● To get the list of physical disks, run the following command:
+racadm storage get pdisks
+● To get the properties of a physical disk, run the following command:
+racadm storage get pdisks:<PD FQDD>
+● To get a list of physical disks in a virtual disk, run the following command:
+racadm storage get pdisks -vdkey:<VD FQDD>
+● To generate and view information about the inventory of fans, run the following command:
+racadm storage get fans --refkey <Enclosure FQDDs separated by comma>
+racadm storage get fans --refkey <Enclosure FQDDs separated by comma >
+-o
+racadm storage get fans --refkey <Enclosure FQDDs separated by comma>
+-o -p <property names separated by comma>
+
+Page 139 Tables:
+storage	None
+	● To generate and view information about the inventory of EMMs, run the following command:
+racadm storage get emms -refkey <Enclosure FQDDs separated by comma>
+racadm storage get emms --refkey <Enclosure FQDDs separated by comma> -o
+racadm storage get emms --refkey <Enclosure FQDDs separated by comma>
+-o -p <property names separated by comma>
+● To generate and view information about the inventory of PSU, run the following command:
+racadm storage get psus -refkey <Enclosure FQDDs separated by comma>
+racadm storage get psus --refkey <Enclosure FQDDs separated by comma> -o
+racadm storage get psus --refkey <Enclosure FQDDs separated by comma>
+-o -p <property names separated by comma>
+Configuration
+NOTE: For any storage operation executed, creating a configuration job is needed for the operation
+to be applied. Only storage operations that don't need a configuration job to apply the changes are
+blink/unblink. Also supported is the ability to stack multiple storage operations for one configuration
+job. Examples are execute reset config, create VD, assign hotspare and create
+configuration job. For more details on creating configuration job, refer to jobqueue help
+create command. Below are the supported input options for storage operations:
+● --refkey—Specifies the controller or enclosure FQDDs.
+● -name—Specifies the new name for the virtual disk.
+NOTE: You can use alphanumeric characters, spaces, dashes, and underscores in the disk name.
+Any other special character that you enter is removed and replaced by a space while creating a
+virtual disk.
+● -size—Specifies the new size for the virtual disk. It should be more than the current size.
+○ b—Specifies the size in bytes
+○ k—Specifies the size in kilobytes
+○ m—Specifies the size in megabytes
+○ g—Specifies the size in gigabytes
+○ t—Specifies the size in terabytes
+● -rl—Sets the storage level.
+○ r0—storage 0-Striping
+○ r1—storage 1-Mirroring
+○ r5—storage 5-Striping with Parity
+○ r6—storage 6-Striping with Extra Parity
+○ r10—storage 10-Spanned Striping with Mirroring
+○ r50—storage 50-Spanned Striping with Parity
+○ r60—storage 60-Spanned Striping with Extra Parity
+● -new_rl—Specifies the new possible raid level for the virtual disk
+○ r0—RAID0
+○ r1—RAID1
+○ r5—RAID5
+○ r6—RAID6
+NOTE: This is a mandatory option must provide with RLM operation. Possible raid migrations with
+disk addition are R0-R1, R0-R5/R6,R1-R0/R5/R6, R5-R0/R6, R6-R0/R5. Possible raid migrations
+without disk addition are R1-R0, R5-R0, R6-R0/R5.
+● -wp{wt|wb|wbf}—Sets the write policy to Write Through, Write Back, or Write Back Force
+
+Page 140 Tables:
+storage	None
+	● -rp {nra|ra|ara}—Sets the read policy to No Read Ahead, Read Ahead, Adaptive Read Ahead
+● -ss—Specifies the stripe size to use.
+● -pdkey:<PD FQDD list>—Specifies the physical disk drive to use in the virtual disk.
+● -dcp—Sets the Disk Cache Policy in the Virtual Disk.
+○ enabled—Allows the virtual disk to use the cache.
+○ disabled—Does not allow the virtual disk to use the cache.
+○ default—Uses the default cache policy. For SAS drives, use the disabled option and for SATA
+drives, use the enabled option by default.
+● -name <VD name>—Specifies the name of the virtual disk.
+● -size <VD size>—Specifies the size of each virtual disk.
+○ b—Specifies the size in bytes
+○ k—Specifies the size in kilobytes
+○ m—Specifies the size in megabytes
+○ g—Specifies the size in gigabytes
+○ t—Specifies the size in terabytes
+● -sc—Number of spans in a virtual disk (required for multi-span RAID level)
+NOTE:
+○ From PERC9 storage controller onwards, if the value of
+controller.SupportRAID10UnevenSpans is supported, you can enter only 0 for this
+option while creating RAID level 10. The created RAID10 virtual disk displays the spandepth as 1
+(default).
+○ For other controllers:
+￭ The default value for multi-span RAID levels is 2 and for basic RAID level is 1.
+￭ For hybrid RAID levels such as RAID10, RAID50, and RAID60, this option is mandatory.
+￭ The value for-sc option can be 0 only for RAID10.
+● -T10PIEnable—Creates a virtual disk with protection information.
+● -sd <SecureDisk>—Set the secure disk to encrypt the VD.
+○ enabled—Enable the encryption in VD.
+○ disabled—Disable the encryption in VD.
+● -key <Key id>—Specifies the key id.
+● -passwd <passphrase>—Specifies the passphrase.
+● -newpasswd <passphrase>—Specifies the new passphrase.
+● -assign {yes | no}—Assigns or unassigns the disk as a hotspare.
+● -type { ghs | dhs}—Assigns a global or dedicated hotspare.
+● -vdkey:<VD FQDD>—Assigns the dedicated hotspare to the specified virtual disk. This option is
+required for dedicated hotspare.
+● -state <start|stop>—start value starts a patrol read operation. stop value stops a running
+patrol read operation.
+NOTE:
+○ To start the operation, the Controller.PatrolReadMode must be in Manual mode.
+○ The values displayed for properties such as Patrol Read, Check Consistency Rate,
+Rebuild Rate, BGI Rate, and Reconstruction Rate are displayed in percentage.
+● -speed—Specifies the initialization of the Virtual disk.
+○ fast—Performs fast initialization.
+○ full—Performs slow initialization.
+● blink: <FQDD> or unblink: <FQDD>—<FQDD> can be physical disk drives, virtual disks, or
+PCIeSSD.
+● <PCIeSSD FQDD>—Specifies the PCIeSSD FQDD.
+● <PCIeSSD controller|enclosure FQDD>—Specifies the PCIeSSD controller or enclosure
+FQDD.
+● preparetoremove—Specifies the PCIeSSD drive to prepare for removal.
+
+Page 141 Tables:
+storage	None
+	NOTE: Ensure that ISM is installed and running to perform the preparetoremove operation.
+● cryptographicerase—Specifies the PCIeSSD, SED (Self encrypting drive) or ISE device to
+perform the cryptographic erase operation.
+NOTE: If running this operation on an ISE or SED device, it must not be a part of a RAID volume. If
+the device is part of a RAID volume, delete the volume first and then run cryptographicerase.
+● -mdtype { windows | linux}—Specifies the metadata type for the physical disk conversion to
+RAID
+NOTE: SWRAID only supports mdtype.
+● -mode—Specifies the PERC key management type.
+● -f : <filename>—The filename to export the identity.
+● -u : <username> —Username of the remote share to where the file must be exported.
+● -p : <password>—Password for the remote share to where the file must be exported.
+● -l : <CIFS or NFS share>—Network share location to where the file must be exported.
+● <FQDD>—FQDD of the controller.
+● -t : <identity>—Identity type to be exported.
+0 = Hardware identity
+● To view the help details for a configuration command, run the following command:
+racadm storage help <command>
+where command can take below values
+converttoraid, converttononraid, controllers, clearconfig,
+createsecuritykey, createvd, deletesecuritykey,
+deletevd, encryptvd, enclosures, emms,exportcertificate,
+fans, hotspare, importconfig, ccheck, cryptographicerase,
+preparetoremove, blink, unblink, cancelcheck, renamevd, cancelbgi,
+rebuild, cancelrebuild, capacityexpanon, raidlevelmigrationinit,
+modifysecuritykey, psus, pdisks, resetconfig, tempprobes, vdisks,
+patrolread, forceonline,
+forceoffline,replacephysicaldisk,unlock,and setbootvd.
+NOTE: iSM must be running on the operating system to run the preparetoremove method:
+● To create, delete, and secure the virtual disks, to start or stop the consistency check on the specified
+virtual disk, run the following command:
+racadm storage createvd:<Controller FQDD> -rl {r0|r1|r5|r6|r10|r50|r60}
+[-wp {wt|wb|wbf}] [-rp {nra|ra|ara}] [-ss {1k|2k|4k|8k|16k|32k|64k|
+128k|256k|512k|1M|2M|4M|8M|16M}]-pdkey:<comma separated PD FQDD> [-dcp
+{enabled|disabled|default}] [-name <VD name>] [-size <VD size>{b|k|m|g|
+t}] [-T10PIEnable] [-sd <secureDisk>]
+NOTE:
+○ T10PI is no longer supported on PERC controllers.
+
+Page 142 Tables:
+storage	None
+	○ If the <VD name> exceeds 15 characters when running the createvd command, it gets
+corrected to a length of 15 characters once the command is completed successfully.
+racadm storage init:<VD FQDD> -speed {fast|full}
+racadm storage deletevd:<VD FQDD>
+racadm storage encryptvd:<VD FQDD>
+racadm storage createsecuritykey:<Controller FQDD> -key <Key id> -xxx
+<passphrase>
+racadm storage modifysecuritykey:<Controller FQDD> -key <Key id>-xxx
+<old passphrase> -xxx <new passphrase>
+racadm storage deletesecuritykey:<Controller FQDD>
+racadm storage ccheck:<VD FQDD>
+racadm storage cancelcheck:<VD FQDD>
+● To set virtual disk as bootvd and replace physical disk in virtual disk:
+racadm storage setbootvd:<Controller FQDD> -vd <VD FQDD >
+racadm storage replacephysicaldisk:<Source PD FQDD > -dstpd
+<Destination PD FQDD>
+● To rename, expansion and raid level migration of the virtual disks and, to rebuild, cancel rebuild and
+cancel the back-ground initialization, run the following command:
+racadm storage renamevd:<VD FQDD > -name <new_vd_name>
+racadm storage capacityexpansion:<VD FQDD > -size <new size VD> -pdkey
+<PD FQDDs>
+racadm storage capacityexpansion:<VD FQDD> -size <new size>.
+racadm storage discardcache:<Controller FQDD>
+racadm storage raidlevelmigration:<VD FQDD > -new_rl <raid_level>
+-pdkey:<PD FQDD separated by commas>
+racadm storage rebuild:<PD FQDD>
+racadm storage cancelrebuild:<PD FQDD>
+racadm storage cancelbgi:<VD FQDD>
+
+Page 143 Tables:
+storage	None
+	● To convert the physical disk drives and assign or delete a hotspare. To scan physical disks that are
+connected to a controller and detect problem, run the following command:
+racadm storage converttononraid:<PD FQDD>
+racadm storage converttoraid:<PD FQDD>
+-mdtype <metadataType>
+NOTE: Convert to RAID or Non RAID is not supported on PERC 10 (RAID mode) and BOSS
+controller cards. PERC10 in eHBA mode supports convert to RAID or Non-RAID.
+NOTE: -mdtype is only supported for SWRAID controllers.
+racadm storage hotspare:<PD FQDD> -assign yes -type dhs -vdkey: <VD
+FQDD>
+racadm storage hotspare:<PD FQDD> -assign yes –type ghs
+racadm storage hotspare:<PD FQDD> -assign no
+racadm storage patrolread:<Controller FQDD> -state start|stop
+NOTE: If the –assign option is no, you cannot add other options. If the –assign option is yes
+and if the -type option is not present, the global hotspare (ghs) is created by default.
+● To reset, clear, and import the storage configuration to the controller, run the following command:
+racadm storage importconfig:<Controller FQDD>
+racadm storage resetconfig:<Controller FQDD>
+racadm storage clearconfig:<Controller FQDD>
+● To unlock foreign configuration:
+racadm storage unlock:<Controller FQDD> -key <Key id> -passwd
+<passphrase>
+● To start or stop a blink or identify operation on the specified storage device, run the following
+command:
+racadm storage blink:<FQDD>
+racadm storage blink:<PCIeSSD FQDD>
+racadm storage unblink:<FQDD>
+racadm storage unblink:<PCIeSSD FQDD>
+NOTE:
+○ The start or stop a blink feature is not supported for HHHL PCIe SSD devices.
+○ BOSS-S2 controllers support blink and unblink feature on M.2 drives.
+
+Page 144 Tables:
+storage	None
+	● To force a physical disk online, offline
+racadm storage forceonline:<PD FQDD>
+racadm storage forceoffline:<PD FQDD>
+NOTE: Forcing a physical drive offline or online may result in loss of data. For more information, see
+the latest PERC User's Guide.
+● To prepare the PCIeSSD drive for removal:
+racadm storage preparetoremove <PCIeSSD FQDD>
+NOTE: The Prepare to Remove task is not supported for HHHL PCIe SSD devices.
+● To perform a cryptographic erase operation on PCIeSSD device, run the following command:
+racadm storage cryptographicerase:<PCIeSSD FQDD>
+● To perform a cryptographic erase operation on PCIeSSD device using PSID, run the following command:
+racadm storage cryptographicerase:<SED FQDD> -psid <PSID>
+● To set the encryption mode to Secure Enterprise Key Manager (SEKM) for the PERC controller or
+migrate from Local Key Manager (LKM) to SEKM mode:
+racadm storage setencryptionmode:<Controller FQDD> -mode <KEY
+Management Mode> -passphrase <Dell@123>
+NOTE: Ensure that you enable SEKM on iDRAC before enabling SEKM on the PERC controller or
+while migrating the PERC controller from LKM to SEKM security mode.
+● To request iDRAC to rekey all devices:
+racadm storage rekey:<Controller FQDD>
+● To export the storage controller identity certificate to a CIFS or NFS share, run the following command:
+NOTE: This command supports both IPV4 and IPV6 formats. IPV6 is applicable for CIFS and NFS
+type remote shares.
+NOTE: This feature is only supported on storage controllers which support SPDM (Example: PERC
+12).
+racadm storage exportcertificate:<FQDD> -l <CIFS or NFS share> -u
+<username> -p <password> -f <filename> -t <identity>
+Input	● -o—Specifies the optimized version.
+● -p—Specifies the property name.
+
+Page 145 has no tables.
+Page 146 has no tables.
+Page 147 has no tables.
+Page 148 has no tables.
+Page 149 has no tables.
+Page 150 has no tables.
+Page 151 has no tables.
+Page 152 has no tables.
+Page 153 has no tables.
+Page 154 has no tables.
+Page 155 has no tables.
+Page 156 has no tables.
+Page 157 has no tables.
+Page 158 Tables:
+Property Name	Description	Possible values
+Status	This property specifies the current
+status of the controller	● Unknown
+● Ok
+● Warning
+● Failed
+DeviceDescription	This property specifies the type and
+location of controller	An alphanumeric string
+RollupStatus	Rollup status indicates combined
+status of controller and its attached
+components	● Unknown
+● Ok
+● Warning
+● Failed
+Name	This property specifies the name of the
+controller	A string value that comes directly from
+the device
+PciSlot	This property specifies if the controller is
+inserted in any PCI slot	An integer value
+FirmwareVersion	This property specifies the current
+firmware version of the controller	An alphanumeric value. Other characters
+such as "." and "-" are also allowed
+RebuildRate	The Rebuild Rate is the percentage of
+the system's resources dedicated to
+rebuilding a failed disk when a rebuild is
+necessary	● "Not supported"
+● An integer value
+BgiRate	The Background Initialization (BGI) rate
+is the percentage of the system's
+resources dedicated to performing the
+background initialization of a virtual disk
+after it is created	● "Not supported"
+● An integer value
+CheckConsistencyRate	The Check Consistency rate is the
+percentage of the system's resources
+dedicated to performing a check
+consistency on a redundant virtual disk	● "Not supported"
+● An integer value
+ReconstructRate	The Reconstruct Rate is the percentage
+of the system's resources dedicated to
+reconstructing a disk group after adding
+a physical disk or changing the RAID
+level of a virtual disk residing on the disk
+group	● "Not supported"
+● An integer value
+PatrolReadRate	The Patrol Read Rate is the percentage
+of the system's resources dedicated to
+perform Patrol Read	● "Not supported "
+● An integer value
+PatrolReadMode	Patrol Read is a feature for identifying
+disk errors in order to avoid disk failures,
+data loss or corruption. The Patrol Read
+only runs on disks that are being used in
+a virtual disk or that are hot spares	● Not Supported
+● Disabled
+● Automatic
+● Manual
+● Unknown
+PatrolReadState	Patrol Read State specifies the current
+Patrol Read operation state	● Stopped
+● Running
+● Unknown
+
+Page 159 Tables:
+Property Name	Description	Possible values
+CheckConsistencyMode	Check Consistency feature is used to
+verify the accuracy of the redundant
+(parity) information	● Not Supported
+● Normal
+● Stop On Error
+● Unknown
+LoadBalanceSetting	This property represents the ability to
+automatically use both controller ports
+connected to the same enclosure to
+route I/O requests	● Not Supported
+● Auto
+● Disabled
+● Unknown
+CopybackMode	This property represents the mode of
+restoring configuration of a virtual disk
+when a failed physical disk is replaced in
+an array	● Not supported
+● On
+● ON with SMART
+● OFF
+● Unknown
+PreservedCache	This property indicates if the controller
+has preserved cache in it or not	● Not Present
+● Present
+● Unknown
+CacheMemorySize	This property specifies the size of
+the preserved cache present in the
+controller	● "Not supported "
+● Integer value in MB
+PersistHotSpare	This property enables or disables the
+persistent hotspare of the controller	● Disabled
+● Enabled
+● Not Applicable
+KeyID	This property specifies the security
+KeyId assigned when security on the
+controller is enabled	● "Null"
+● Some string value
+SpindownUnconfiguredDrives	This property spins down the
+unconfigured disks if they are
+unattended for a specified interval of
+time	● Disabled
+● Enabled
+● Not Applicable
+SpindownHotspare	This property spins down the hot spares
+if no read‑write operation takes place on
+the hot spare in a specified interval of
+time.	● Disabled
+● Enabled
+● Not Applicable
+Timeintervalforspindown	This property sets the time interval after
+which the hot spares and unconfigured
+drives spins down	An integer value in minutes
+SecurityStatus	This property specifies the controller
+security capability and current controller
+security status	● Not Capable
+● Encryption Capable
+● Security Key Assigned
+● Disabled
+● Enabled
+EncryptionMode	This property represents the encryption
+mode on the controller. It could be
+used to set the encryption mode to
+Local Key Management or Dell Key
+Management on the controller through
+Server Configuration Profile (SCP)
+feature. It is configurable through Server
+Configuration Profile (SCP) feature only.	● None
+● Local Key Management
+● Secure Enterprise Key Manager
+● Secure Enterprise Key Manager
+Pending
+● Secure Enterprise Key Manager
+Failed
+● Unsupported
+● Not Applicable
+
+Page 160 Tables:
+Property Name	Description	Possible values
+EncryptionCapability	This property specifies the controller
+security capability	● None
+● Local Key Management Capable
+● Secure Enterprise Key Manager
+Capable
+● Local Key Management and Secure
+Enterprise Key Manager Capable
+● Capable
+● Not Capable
+SasAddress	This property specifies the SAS address
+of the controller	● "Not Applicable"
+● A hexadecimal string
+PciDeviceId	This property specifies the PCI Device Id
+assigned to the controller inserted in PCI
+slot	A hexadecimal string
+PciSubdeviceId	This property specifies the PCI sub
+device Id assigned to the controller
+inserted in the PCI slot	A hexadecimal string
+PciVendorId	This property specifies the PCI vendor Id
+assigned to the controller inserted in the
+PCI slot	A hexadecimal string
+PciSubvendorId	This property specifies the PCI sub
+vendor Id assigned to the controller
+inserted in the PCI slot	A hexadecimal string
+PciBus	This property specifies the PCI Bus
+details of the controller inserted in the
+PCI slot	A hexadecimal string
+PciDevice	This property specifies the PCI device
+details of the controller inserted in the
+PCI slot	A hexadecimal string
+PciFunction	This property specifies the PCI function
+details of the controller inserted in the
+PCI slot	A hexadecimal string
+BusWidth	This property specifies the PCI bus
+width details of the controller inserted in
+the PCI slot	● Other
+● Unknown
+● 1x or x1
+● 2x or x2
+● 4x or x4
+● 8x or x8
+● 12x or x12
+● 16x or x16
+● 32x or x32
+SlotLength	This property specifies the PCI slot
+length of the controller inserted in the
+PCI slot	● Other
+● Unknown
+● Short Length
+● Long Length
+● 2.5 Drive Form Factor
+● 3.5 Drive Form Factor
+SlotType	This property specifies the PCI slot type
+of the controller inserted in the PCI slot	● Other,
+● Unknown
+● PCI Express
+● PCI Express x1
+
+Page 161 Tables:
+Property Name	Description	Possible values
+		● PCI Express x2
+● PCI Express x4
+● PCI Express x8
+● PCI Express x16
+● PCI Express Gen2
+● PCI Express Gen2 x1
+● PCI Express Gen2 x2
+● PCI Express Gen2 x4
+● PCI Express Gen2 x8
+● PCI Express Gen2 x16
+● PCI Express Gen3
+● PCI Express Gen3 x1
+● PCI Express Gen3 x2
+● PCI Express Gen3 x4
+● PCI Express Gen3 x8
+● PCI Express Gen3 x16
+● PCI Express Gen4
+● PCI Express Gen4 x1
+● PCI Express Gen4 x2
+● PCI Express Gen4 x4
+● PCI Express Gen4 x8
+● PCI Express Gen4 x16
+● PCI Express Gen5
+● PCI Express Gen5 x1
+● PCI Express Gen5 x2
+● PCI Express Gen5 x4
+● PCI Express Gen5 x8
+● PCI Express Gen5 x16
+MaxCapableSpeed	This property specifies the maximum
+drive capable speed that the controller
+supports	● 1.5 Gb/s
+● 3.0 Gb/s
+● 6.0 Gb/s
+● 12.0 Gb/s
+● 2.5 GT/s
+● 5 GT/s
+● 8 GT/s
+● 16 GT/s
+● Unknown
+● 24 Gb/s
+● 32 GT/s
+LearnMode	The Battery Learn Mode controls a RAID
+Controller's Battery Learn Cycle	● Not supported
+● Automatic
+● Warn
+● Disabled
+● Unknown
+T10PICapability	This property specifies if the controller
+supports T10 PI. This is a read only
+property	● Not capable
+● Capable
+● Unknown
+SupportRAID10UnevenSpans	This property specifies if the controller
+supports uneven spans for RAID 10.This
+is a read only property	● Not Supported
+● Supported
+● Unknown
+
+Page 162 Tables:
+Property Name	Description	Possible values
+SupportEnhancedAutoForeignImport	This property specifies if the controller
+supports enhanced auto import of
+foreign configuration. This is a read only
+property	● Not Supported
+● Supported
+● Unknown
+EnhancedAutoImportForeignConfig	This property specifies Enhanced Auto
+Import of Foreign Configuration setting
+on the controller	● Not Supported
+● Disabled
+● Enabled
+SupportControllerBootMode	This property specifies if the controller
+supports setting of controller boot mode.
+This is a read only property	● Not Supported
+● Supported
+● Unknown
+ControllerBootMode	This property indicates the Controller
+Boot Mode setting on the controller	● User Mode
+● Continue Boot on Error
+● Headless Mode
+● Continue on Error
+● Headless Safe Mode
+● Safe Mode on Error
+● Unknown
+RealtimeConfigurationCapability	This property specifies if controller
+supports side band monitoring	● Capable
+● Incapable
+RaidMode	This property specifies the meta data
+mode of the controller. It is applicable
+only for SW RAID controller	● None
+● Linux
+● Windows
+● Mixed
+SharedSlotAssignmentAllowed	This property specifies if controller
+supports slot assignment sharing	● Yes
+● No
+● Not Applicable
+BootVD	This property specifies the FQDD of the
+virtual disk which is set to Boot Vd under
+this controller	● "None"
+● String value displaying the FQDD of
+Virtual disk
+CurrentControllerMode	This property specifies if current
+controller mode is RAID or HBA/
+EnhancedHBA. If enhanced HBA is
+supported by PERC,then this object will
+display EnhancedHBA otherwise it will
+display HBA	● Not Supported
+● RAID
+● HBA
+● EnhancedHBA
+● NONE
+SupportEnhancedHBA	This property specifies if the controller
+supports enhanced Host Bus Adapter
+mode	● Supported
+● Not Supported
+SupportsLKMtoSEKMTransition	This property specifies if the controller
+supports seamless LKM to SEKM
+transition	● Yes
+● No
+AutoConfigBehavior	This property specifies the current value
+of the auto configuration behavior of the
+controller	● Non-RAID Disk
+● RAID0
+● OFF
+● RAID-0 Write Back
+● RAID-0 Write Through
+● Secured RAID-0 Write Through
+● Secured RAID-0 Write Back
+● Secured Non-RAID Disk
+● Not Applicable
+
+Page 163 Tables:
+Property Name	Description	Possible values
+CPUAffinity	The controller CPU affinity indicates
+which CPU is managing the controller	● "Not applicable"
+● An integer value
+
+Property Name	Description	Possible values
+Status	This property specifies the current
+status of the physical disk	● Unknown
+● Ok
+● Warning
+● Failed
+DeviceDescription	This property specifies the type and
+location of the physical disk	An alphanumeric value
+RollupStatus	This property specifies the overall health
+status of the physical disk	● Unknown
+● Ok
+● Warning
+● Failed
+Name	This property specifies the name of the
+physical disk	A string value
+State	This property specifies the current state
+of the physical drive	● Unknown
+● Ready
+● Online
+● Foreign
+● Offline
+● Blocked
+● Failed
+● Degraded
+● Non-Raid
+● Removed
+● Charging
+● Learning
+● Low Power
+● Over Temp
+● Under Temp
+● Read Only
+● Physical Layer Failure
+● Transport Layer Failure
+● Protocol Command Failure
+● Sanitize In Progress
+● Sanitize failed
+● Unusable
+● Not Applicable"
+PowerStatus	This property specifies the current state
+of spinning platters of the drive	● Spun-Up
+● Spun-Down
+● Transition
+● On
+● Unknown
+Size	This property specifies the size of the
+physical drive	An alphanumeric string value. Space and
+"." are also allowed
+BusProtocol	This property specifies the bus
+communication protocol of the drive	● SAS
+● SATA
+● Unknown
+
+Page 164 Tables:
+Property Name	Description	Possible values
+		● NVMe
+● PCIe
+MediaType	This property specifies the media type of
+the drive	● HDD
+● SSD
+● Unknown
+AvailableSpare	This property specifies how many blocks
+have failed and have been reallocated
+with reserved blocks	● "Not Applicable"
+● An integer value
+Model	This property specifies the drive model	● "Unknown"
+● String value
+ProductId	This property specifies the drive product
+ID flashed during production	● "Not Available"
+● String value
+SerialNumber	This property specifies the serial number
+of the drive	● "Unknown"
+● Alphanumeric value
+DeviceSidebandProtocol	This property specifies the protocol used
+for drive's side band communication	● "Not Available"
+●
+Manufacturer	This property specifies the manufacturer
+of the drive	An alphanumeric value. Spaces are also
+allowed
+PCIeNegotiatedLinkWidth	This property specifies the maximum PCI
+link width that the drive supports for
+communication	● x1
+● x2
+● x4
+● x8
+● x16
+● x32
+● Not Applicable
+PCIeCapableLinkWidth	This property specifies the current PCI
+link width used for drive communication	● x4
+● x8
+● x16
+● Not Applicable
+MaxCapableSpeed	This property specifies the maximum
+speed that the drive supports for
+communication	● Unknown
+● 1.5 Gb/s
+● 3 Gb/s
+● 6 Gb/s
+● 12 Gb/s
+● 24 Gb/s
+NegotiatedSpeed	This property specifies the current speed
+used for drive communication	● Unknown
+● 2.5 GT/s
+● 5 GT/s
+● 8 GT/s
+● 16 GT/s
+● 32 GT/s
+FormFactor	This property specifies the physical form
+factor of the drive	● Unknown
+● 1.8 Inch
+● 2.5 Inch
+● 3.5 Inch
+● add-in card
+● M.2
+● EDSFF-E1.L
+
+Page 165 Tables:
+Property Name	Description	Possible values
+		● E3.S
+● E3.S 2T
+● E3.L
+● E3.L 2T
+Revision	This property specifies the current
+firmware version flashed on the drive	An integer value
+RemainingRatedWriteEndurance	This property specifies the number of
+program/erase (P/E cycles) that can
+be applied to a block of flash memory
+before the storage media becomes
+unreliable	● Unavailable
+● Not Applicable
+● Dynamic value
+FailurePredicted	This property indicates if a failure is
+predicted in the drive or not	● Unavailable
+● NO
+● YES
+● Unknown
+PcieSSDBusId	This property specifies the PCIe Bus ID	● "Not Applicable"
+● An integer value
+PcieSSDDeviceId	This property specifies the PCIe Device
+ID	● "Not Applicable"
+● An integer value
+PcieSSDFunctionId	This property specifies the PCIe function
+ID	● "Not Applicable"
+● An integer value
+ErrorRecoverable	This property specifies if the drive is
+capable of recovering from errors	● Yes
+● No
+● Not Applicable
+RAIDStatus	This property specifies the current state
+of the drive	● Unknown
+● Ready
+● Online
+● Foreign
+● Offline
+● Blocked
+● Failed
+● Degraded
+● Non-RAID
+HotSpareStatus	This property specifies if the drive is
+assigned as Hot spare or not. If drive is
+assigned as Hot spare, it will display if
+the drive is dedicated or global hot spare	● No
+● Dedicated
+● Global
+AvailableRaidDiskSpace	This property specifies the free space
+available in the drive	An alphanumeric value. Space and
+"."values are also allowed
+FreeSizeInBytes	This property specifies the free space
+available in the drive in bytes	An alphanumeric value. Space and "."
+values are also allowed
+RaidType	This property specifies the RAID type of
+the drive	● Unknown
+● MD Software RAID
+● Windows Software RAID
+SasAddress	This property specifies the SAS address
+of the physial drive	● "Not Applicable"
+● An alphanumeric value
+Certified	This property specifies if the drive is
+certified	● No
+● Yes
+
+Page 166 Tables:
+Property Name	Description	Possible values
+		● Not Applicable
+NonRAIDDiskCachePolicy	When this feature is enabled, the
+physical disk writes data to the physical
+disk cache before writing it to the
+physical disk. Because it is faster to
+write data to the cache than to a disk,
+enabling this feature improves system
+performance.	● Default
+● Enabled
+● Disabled
+● Unknown
+● Not Applicable
+OperationState	This property specifies if there is any
+operation in progress on the drive. If an
+operation is in progress, it displays the
+operation in progress	● Unknown
+● Ready
+● Online
+● Offline
+● Failed
+● Foreign
+● Blocked
+● Non-Raid
+● Removed
+● Copy Back
+● Clear
+● Rebuilding
+● Not Applicable"
+PowerStatus	This property specifies the current state
+of the spinning platters of the drive	● Spun-Up
+● Spun-Down
+● Transition
+● On
+● Unknown
+SecurityStatus	This property specifies the current
+security status of the drive	● Encryption Capable
+● Secured
+● Locked
+● Secured_by_Foreign
+● Not Capable
+● Unknown
+UsedRaidDiskSpace	This property specifies the amount of
+used space in the drive	An alphanumeric value. Space and "."
+values are also allowed
+T10PICapability	This property specifies if the drive is T10
+PI capable	● Not Capable
+● Capable
+● Unknown
+SystemEraseCapability	This property specifies the type of erase
+drive supported	● Not Supported
+● OverwritePD
+● CryptographicErasePD
+● Unknown
+EncryptionCapability	This property specifies if the security
+can be enabled on the drive	● Capable
+● Not Capable
+EncryptionProtocol	This property specifies the security
+protocol used by the drive when the
+security is enabled	● None
+● TCG Enterprise SSC
+● TCG Opal SSC
+PartNumber	This property specifies the part number
+of the physical drive	An alphanumeric value. Hyphen (-) is
+also allowed
+ForeignKeyIdentifier	This property is present in the drive to
+identify if the drive becomes foreign	An alphanumeric value
+
+Page 167 Tables:
+Property Name	Description	Possible values
+RaidNominalMediumRotationRate	This property specifies the nominal
+medium rotation rate	An integer value
+CPUAffinity	CPU affinity property indicates which
+CPU is managing the drive	● "Not supported"
+● An integer value
+
+Property Name	Description	Possible values
+Status	This property specifies the current
+status of the virtual disk	● Unknown
+● Ok
+● Warning
+● Failed
+DeviceDescription	This property specifies the type and
+location of the virtual disk	An alphanumeric string
+Name	This property specifies the name of the
+virtual disk	String value
+RollupStatus	This property specifies the overall health
+status of the virtual disk	● Unknown
+● Ok
+● Warning
+● Failed
+State	This property displays the current virtual
+disk state	● Unknown
+● Ready
+● Online
+● Foreign
+● Offline
+● Blocked
+● Failed
+● Degraded
+● Non-Raid
+● Removed
+● Charging
+● Learning
+● Low Power
+● Over Temp
+● Under Temp
+● Read Only
+● Physical Layer Failure
+● Transport Layer Failure
+● Protocol Command Failure
+● Sanitize In Progress
+● Sanitize failed
+● Unusable
+● Not Applicable
+OperationalState	This property specifies if any operations
+are in progress on virtual disk and the
+current status	● Ready
+● Degraded
+● Failed
+● Resyncing
+● Reconstructing
+● Background Initialization
+● Initializing
+● Unknown
+
+Page 168 Tables:
+Property Name	Description	Possible values
+		● Not applicable
+● Online
+Layout	This property displays the virtual disk
+layout	● Volume
+● Raid-0
+● Raid-1
+● Raid-2
+● Raid-3
+● Raid-4
+● Raid-5
+● Raid-6
+● Raid-7
+● Raid-8
+● Raid-9
+● Raid-10
+● Raid-30
+● Raid-50
+● Raid-60
+● ConcatRaid-1
+● ConcatRaid-5
+● VendorRaid
+● Unknown
+Size	This property displays the size of the
+virtual disk	An alphanumeric value. Space and "."
+values are also allowed
+SpanDepth	This property specifies the current span
+depth of the virtual disk	An integer value
+AvailableProtocols	This property specifies the
+communication protocol of drives that
+are part of virtual disk	● SAS
+● SATA
+● Unknown
+● NVMe
+● PCIe
+MediaType	This property specifies the media type of
+drives that are part of virtual disk	● HDD
+● SSD
+● Unknown
+ReadPolicy	This property specifies whether the
+controller should read sequential sectors
+of the virtual disk when seeking data	● Read Ahead
+● Adaptive Read Ahead
+● No Read Ahead
+● Unknown
+WritePolicy	This property specifies whether the
+controller sends a write request
+completion signal as soon as the data is
+in the cache or after it has been written
+to disk	● Write Back
+● Write Through
+● Force Write Back
+● Unknown
+StripeSize	This property displays the stripe size
+of the virtual disk. It is configurable
+through Server Configuration Profile
+(SCP) feature only	● Default
+● 512B
+● 1K
+● 2K
+● 4K
+● 8K
+● 16K
+● 32K
+
+Page 169 Tables:
+Property Name	Description	Possible values
+		● 64K
+● 128K
+● 256K
+● 512K
+● 1MB
+● 2MB
+● 4MB
+● 8MB
+● 16MB
+● Unknown
+DiskCachePolicy	This property is used to set the physical
+disk caching policy of all members of a
+virtual disk. When this feature is enabled,
+the physical disk writes data to the
+physical disk cache before writing it to
+the physical disk	● Default
+● Enabled
+● Disabled
+● Unknown
+● Not Applicable
+BadBlocksFound	This property indicates if the virtual disk
+has any bad blocks	● Yes
+● No
+● Unknown
+Secured	This property indicates if the virtual disk
+secured or not	● Yes
+● No
+● Unknown
+RemainingRedundancy	This property specifies how much
+redundancy is remaining in virtual disk	An integer value
+EnhancedCache	This property specifies if the virtual disk
+supports cache enhancement	● Yes
+● Not Applicable
+T10PIStatus	This property displays the virtual disk
+T10PI Status	● Disabled
+● Enabled
+● Unknown
+BlockSizeInBytes	This property displays the block size of
+the virtual disk	An integer value
+
+supportassist	None
+Description	Allows you to perform supportassist operations such as:
+● collect : Collects the supportassist data and exports to local share, or remote share, or Dell site
+depending on the parameters given in the command. You can specify the type of the logs to be in the
+collect command. To run this command, user must accept the End User License Agreement (EULA).
+NOTE: When performing the collect operation on chassis system, ensure that you use the -t
+Debug option.
+● register : Allows registration of supportassist to enable related features.
+● exportlastcollection : Exports the last collected supportassist data to the share which is
+mentioned in the command or to the default share. Default share can be configured using the
+supportassist attributes.
+● accepteula : Accepts the End User License Agreement (EULA).
+● geteulastatus: Provides the status of the End User License Agreement (EULA).
+● uploadlastcollection : Upload last collection to Dell supportassist server.
+
+Page 170 Tables:
+supportassist	None
+	● exposeisminstallertohostos: Exposes iSM installer to host OS, so that user can install the iSM
+from host side.
+● autocollectscheduler: Provides options to create view, and clear the time-based automatic
+collections. User must perform registration for this feature.
+NOTE: All the commands except accepteula,geteulastatus , and
+autocollectscheduler will create job ID to track the progress of the operation.
+NOTE: SupportAssist register, collect --upload, uploadlastcollection and
+autocollectscheduler view/create/clear commands are not supported in iDRAC
+7.00.00.00 and later versions. Running these commands will generate an EEMI message with the EEMI
+ID SRV156.
+Synopsis	● To perform supportassist operation by specifying the type of the operation.
+racadm supportassist <support assist command type>
+● To collect the data and store it in the iDRAC.
+racadm supportassist collect –t <logtype>
+● To collect the data and export to network share
+racadm supportassist collect –t <logtype> -l <CIFS/NFS/TFTP/FTP share>
+-u <username> -p <password>
+● To collect the data and export to HTTP/HTTPS share
+racadm supportassist collect –t <logtype> -l <HTTP/HTTPS share> -u
+<username> -p <password> -port <port number>
+● To collect the data and upload to Dell supportassist server.
+racadm supportassist collect –t <logtype> -upload
+● To collect the data and export to local share. This is only allowed from remote and local RACADM.
+racadm supportassist collect –t <logtype> -f <filename>
+● To collect the data and export to remote share and to Dell supportassist server.
+racadm supportassist collect –t <logtype> -l <CIFS or NFS share
+location> -u <username> -p <password> --upload
+● To collect telemetry reports.
+racadm supportassist collect -t TelemetryReports
+● To Export the last collected supportassist data to a remote share.
+racadm supportassist exportlastcollection -l <CIFS/NFS/TFTP/FTP share>
+-u myuser -p mypass
+● To Export the last collected supportassist data to HTTP/HTTPS share.
+racadm supportassist exportlastcollection -l <HTTP/HTTPS share> -u
+myuser -p mypass -port <port number>
+● To export the last collected supportassist data to the default network share.
+racadm supportassist exportlastcollection
+● To accept End User License Agreement (EULA)
+racadm supportassist accepteula
+
+Page 171 Tables:
+supportassist	None
+	● To check End User License Agreement (EULA) status
+racadm supportassist geteulastatus
+● To register iDRAC for supportassist features
+racadm supportassist register -pfname <primary first name> -plname
+<primary last name> -pmnumber <primary number>
+-panumber <primary alternate number> -pmailid <primary email id>
+-sfname <secondary first name> -slname <secondary last name> -smnumber
+<secondary number> -sanumber <secondary alternate number>-smailid
+<secondary email id> -company <company name> -street1 <street1 name>
+-street2 <street2 name> -city <city name> -state <state name> -country
+<country name> -zip <zip or postal code>
+● To upload last collection to Dell supportassist server.
+racadm supportassist uploadlastcollection
+● To expose iSM installer to host operating system.
+racadm supportassist exposeisminstallertohostos
+● To schedule auto collection of supportassist data weekly.
+racadm supportassist autocollectscheduler create -time <time> -dow
+<DayofWeek> -rp <repeat>
+● To schedule auto collection of supportassist data monthly.
+racadm supportassist autocollectscheduler create -time <time> -dom
+<DayOfMonth> -rp <repeat>
+racadm supportassist autocollectscheduler create -time <time> -wom
+<WeekOfMonth> -dow <DayofWeek> -rp <repeat>
+● To schedule auto collection of supportassist data quarterly.
+racadm supportassist autocollectscheduler create -time <time> -wom
+<WeekOfMonth> -dow <DayofWeek> -rp <repeat>
+● To view the auto collection data
+racadm supportassist autocollectscheduler view
+● To clear the auto collection data
+racadm supportassist autocollectscheduler clear
+
+Page 172 Tables:
+supportassist	None
+	● -pfname—Specifies the primary user's first name for the registration.
+● -plname—Specifies the primary user's last name for the registration.
+● -pmnumber—Specifies the primary user' s number.
+● -panumber—Specifies the primary user' s alternative number.
+● -pmailid—Specifies the primary user' s email address.
+● -sfname—Specifies the secondary user' s first name.
+● -slname—Specifies the secondary user' s last name.
+● -smnumber—Specifies the secondary user' s number.
+● -sanumber—Specifies the secondary user' s alternate number.
+● -smailid—Specifies the secondary user' s email address.
+● -company—Specifies the company name.
+● -street1—Specifies the street address of the company.
+● -street2—Specifies the secondary street address of the company.
+● -city—Specifies the name of the city.
+● -state—Specifies the name of the state.
+● -country—Specifies the name of the country.
+● -zip—Specifies the zip or postal code.
+● -time—Specifies the time to schedule a supportassist collection in HH:MM 12-hour format.
+● -dom—Specifies the day of the month to schedule a supportassist collection. Valid values are 1-28,
+L(Last day) or '*' (default - any day). If -dom option is included in the command, then -wom and -dow
+options should not be included.
+● -wom—Specifies the week of the month to schedule a supportassist collection. Valid values are 1-4,
+L(Last week) or '*' (default - any week). If -wom option is included in the command, then only -dow
+option should be included. -dom should not be included.
+● -dow — Specifies the day of the week to schedule a supportassist collection. Valid values sunday,
+monday,...saturday '*' (default - any day).
+● -rp — Specifies the repeat parameter weekly, or monthly, or quarterly. Weekly is allowed only with
+dow parameter. Monthly/quarterly is allowed either with dom or dow and wom together.
+
+Page 173 has no tables.
+Page 174 Tables:
+swinventory	None
+Description	Displays the list of software objects and associated properties that are installed on a server.
+NOTE: Lifecycle Controller and CSIOR should not be enabled to run this subcommand.
+Synopsis	racadm swinventory
+Input	racadm swinventory
+
+Page 175 has no tables.
+Page 176 has no tables.
+Page 177 has no tables.
+Page 178 Tables:
+swinventory	None
+	ElementName = Witness BIOS Embedded
+FQDD = BIOS.Setup.1-1:System.Integrated.1-1:System.Chassis.1-1
+InstallationDate = 1970-01-01T00:00:00Z
+Current Version = 0.0.0
+HashValue = NA
+SidebandUpdate = No
+PLDMCapabilitiesDuringUpdate = 0x0
+PLDMFDPCapabilitiesDuringUpdate = 0x0
+-------------------------------------------------------------------
+
+switchconnection	None
+Description	Provides the switch port details of iDRAC and server network ports. Refresh switch port details of all ports
+in the server. To run this command, you must have the Login privilege.
+Synopsis	● racadm switchconnection view
+● racadm switchconnection view [iDRAC FQDD | NIC FQDD]
+● racadm switchconnection refresh
+Input	● <iDRAC FQDD | NIC FQDD> — is the fully qualified device descriptor of iDRAC or NIC.
+Examples	● To provide switch port details of all iDRAC and server network port
+racadm switchconnection view
+● To provide switch port details of requested FQDD NIC.Integrated.1-1-1:BRCM
+racadm switchconnection view NIC.Integrated.1-1-1:BRCM
+● To refresh switch port details of all ports in the server
+racadm switchconnection refresh
+
+racadm switchconnection view
+racadm switchconnection view [iDRAC FQDD | NIC FQDD]
+racadm switchconnection refresh
+
+systemerase	None
+Description	Allows you to erase the components to remove the server from use.
+Synopsis	● To erase a specific component.
+racadm systemerase <component>
+● To erase multiple components.
+racadm systemerase <component>,<component>,<component>
+
+Page 179 Tables:
+systemerase	None
+Input	● <component>—the valid types of components are:
+○ bios—To reset the BIOS to default.
+○ diag—To erase embedded diagnostics.
+○ drvpack—To erase embedded OS driver pack.
+○ dpu—Erase all the user configurations from the supported DPUs.
+○ idrac—To reset the iDRAC to default.
+○ lcdata—To erase Lifecycle Controller data.
+○ allaps—To reset all apps.
+○ cryptographicerasepd—To erase the physical disk. This supports SED, NVMe drives, and PCIe
+cards
+○ overwritepd—To overwrite physical disk. This supports SAS and SATA drives.
+○ percnvcache—To erase NV cache.
+○ reinstallfw— To reinstall same firmware version detected for supported devices.
+○ vflash—To erase vFlash.
+○ nvdimm—To erase all NonVolatileMemory.
+NOTE: When BIOS is selected for System Erase, the server is turned off and the iDRAC is reset at
+the end of the Automated Task Application. To complete the process of BIOS reset, the server power
+must be restored. When the server is turned on, during POST, the BIOS completes the process of
+resetting to the default properties. At the completion of the reset process, the server is again turned
+off. Resetting the BIOS also includes the erasing of BIOS-related nonvolatile settings that are used by
+the OS and embedded in the UEFI applications.
+NOTE: When the racadm systemerase command is executed, the iDRAC will take the following actions
+if the:
+● Server is powered off—it is powered on.
+● Server is powered on—a graceful system reboot will be executed.
+● ACPI is enabled on the server— a graceful shutdown occurs within a minute or two.
+● ACPI is not enabled—a forced shutdown occurs and it may require up to ten minutes to complete.
+Following the server reboot, the Lifecycle Controller will execute the System Erase job to carry out
+the requested actions. All actions performed by the System Erase operations are recorded to the
+Lifecycle Log, including details of all devices erased. When these actions are completed, the server will
+be powered off and remain in this state, allowing service personnel to perform any needed posterase
+actions such as drive removal or hardware reconfiguration. When the server is powered on to return to
+service, the Lifecycle Controller will collect the system inventory and reflect any hardware or firmware
+changes made after the System Erase.
+
+racadm systemerase bios
+racadm systemerase diag
+racadm systemerase drvpack
+racadm systemerase dpu
+racadm systemerase idrac
+racadm systemerase lcdata
+racadm systemerase bios,diag,drvpack
+racadm systemerase bios,idrac,lcdata
+racadm systemerase allapps
+
+Page 180 Tables:
+systemerase	None
+	● racadm systemerase cryptographicerasepd
+● racadm systemerase overwritepd
+● racadm systemerase percnvcache
+● racadm systemerase reinstallfw
+● racadm systemerase vflash
+● racadm systemerase cryptographicerasepd,vflash,percnvcache
+● racadm systemerase nvdimm
+
+racadm systemerase cryptographicerasepd
+racadm systemerase overwritepd
+racadm systemerase percnvcache
+racadm systemerase reinstallfw
+racadm systemerase vflash
+racadm systemerase cryptographicerasepd,vflash,percnvcache
+racadm systemerase nvdimm
+
+systemperfstatistics	None
+Description	Allows you to view and manage the system performance monitoring operations.
+Synopsis	● To view the FQDD's of system performance monitoring sensors
+racadm systemperfstatistics view
+● To list the usage statistics of a specific sensor
+racadm systemperfstatistics <sensor_FQDD>
+● To reset the utilization peaks of system performance monitoring sensors
+racadm systemperfstatistics PeakReset <FQDD>
+● To run the peakreset operation you must have configure iDRAC privilege.
+
+Page 181 Tables:
+techsupreport	None
+Description	Allows you to perform the technical support report operations. Tech Support Report (TSR) is now
+known as SupportAssist Collections and the new term is used in all documentation and GUI. To maintain
+compatibility across server generations, the RACADM command has been retained as techsupreport. The
+types of operations are:
+● collect—Collects the technical support report data to export. You can specify the various types of
+logs to be in the report. This operation generates a Job ID. Use this Job ID to check the status of the
+collect operation. To run this operation, you must have the Server Control Commands permission.
+● export—Exports the collected Tech Support Report data. To run this subcommand, you must have
+the Execute Server Control Commands permission.
+● getupdatetime—Gets the timestamp of the last operating system application data collection.
+● updateosapp—Updates the operating system application data collection. To run this subcommand,
+you must have the Execute Server Control Commands permission.
+Synopsis	● To perform the technical support report operation by specifying the type of operation.
+racadm techsupreport <tech support report command type>
+● To collect the report data.
+racadm techsupreport collect [-t <type of logs>]
+● To export the collected report data.
+racadm techsupreport export -l <CIFS,NFS,TFTP,FTP> -u <username> -p
+<password>
+● To get the timestamp of the last operating system application data collection.
+racadm techsupreport getupdatetime
+● To update the operating system application data collection.
+racadm techsupreport updateosapp -t <type of OS App logs>
+● To export the collected report data to local share.
+racadm techsupreport export -f <filename>
+Input	● -t—type of logs. You can specify any of the following values that are separated by a ‘,’ (comma)
+○ SysInfo—System Information
+○ OSAppNoPII—Filtered OS and Application data
+○ OSAppAll—OS and Application data
+○ TTYLog—TTYLog data
+NOTE:
+
+Page 182 Tables:
+techsupreport	None
+	○ For updating the operating system application data collection, enter the value OSAppNoPII or
+OSAppAll to the -t option.
+○ If no value is specified and system information data is collected.
+○ To perform the OSLog collection, ensure that ISM is installed and running.
+○ TTYLog includes PCIeSSD data.
+● -l—network share location to export the report
+● -u—user name for the remote share to export the report
+● -p—password for the remote share to export the report
+● -f—target filename for the exported log.
+NOTE: The filename must have .zip as the extension.
+Examples	● To collect the system information data.
+racadm techsupreport collect —t <type of logs>
+● To collect the system information and TTYLog data.
+racadm techsupreport collect -t SysInfo,TTYLog
+● To collect the operating system application data.
+racadm techsupreport collect -t OSAppAll
+● To export the collected Tech Support Report, to an FTP share
+racadm techsupreport export -l ftp://192.168.0/share -u myuser -p xxx
+● To export the collected Tech Support Report, to a TFTP share
+racadm techsupreport export -l tftp://192.168.0/share
+● To export the collected Tech Support Report, to a CIFS share.
+racadm techsupreport export -l //192.168.0/share -u myuser -p xxx
+● To export the collected Tech Support Report, to an NFS share.
+racadm techsupreport export -l 192.168.0:/share
+● To export the collected Tech Support Report to the local file system.
+racadm techsupreport export -f tsr_report.zip
+
+testalert	None
+Description	Tests FQDN supported SNMP trap notifications. To run this subcommand, you must have the Test Alert
+User Access.
+Synopsis	racadm testalert -i <index>
+Input	-i — Specifies the index of the trap test. index must be an integer from 1 to 8 on iDRAC.
+
+Page 183 Tables:
+testalert	None
+Output	Success: Test trap sent successfully
+Failure: Unable to send test trap
+Example	● Test a trap with index as 1.
+racadm testalert -i 1
+Test trap sent successfully.
+● Test a trap that has not been configured yet.
+racadm testalert -i 2
+ERROR: Trap at specified index is not currently enabled.
+
+testemail	None
+Description	Sends a test email from iDRAC to a specified destination. Prior to running the test email command, make
+sure that the SMTP server is configured. The specified index in the idrac.EmailAlert group must be enabled
+and configured properly. For more information, see Integrated Dell Remote Access Controller RACADM CLI
+Guide .
+Synopsis	racadm testemail -i <index>
+Input	-i <index> — Specifies the index of the email alert to test.
+Output	Success: Test e-mail sent successfully Failure: Unable to send test e-mail
+Example	Commands for the idrac.EmailAlert group:
+● Enable the alert.
+racadm set idrac.EmailAlert.1.Enable 1
+● Set the destination email address.
+racadm set idrac.EmailAlert.1.Address user1@mycompany.com
+● Set the custom message that is sent to the destination email address.
+racadm set idrac.emailalert.1.CustomMsg "This is a test!"
+● Make sure that the SMTP IP address is configured properly.
+racadm set idrac.remotehosts.SMTPServerIPAddress 192.168.0
+● View the current email alert settings.
+racadm get idrac.EmailAlert.<index>
+where <index> is a number from 1 to 8.
+
+Page 184 Tables:
+testrsyslogconnection	None
+Description	Allows you to check the connection with Telemetry rsyslog server. The Telemetry feature requires
+iDRAC9 DataCenter or OpenManage Enterprise Advanced license to run this command.
+Synopsis	racadm testrsyslogconnection
+Input	testrsyslogconnection
+Output	A test connection to the rsyslog server was successful.
+Example	To test a Telemetry rsyslog connection:
+racadm testrsyslogconnection
+
+testtrap	None
+Description	Tests the RAC’s SNMP trap alerting feature by sending a test trap from iDRAC to a specified destination
+trap listener on the network. To run this subcommand, you must have the Test Alert permission.
+NOTE:
+● Before you run the testtrap subcommand, make sure that the specified index in the RACADM
+iDRAC.SNMPAlert group is configured properly.
+● The indices of testtrap subcommand is co-related to the indices of iDRAC.SNMPAlert group.
+Synopsis	racadm testtrap -i <index>
+Input	-i <index> — Specifies the index of the trap configuration that must be used for the test. Valid values
+are from 1 to 4.
+Example	● Enable the alert.
+racadm set idrac.emailalert.1.CustomMsg 1
+racadm set iDRAC.SNMPAlert.1.State 1
+● Set the destination email IP address.
+racadm set iDRAC.SNMPAlert.1.Destination
+192.168.0
+● View the current test trap settings.
+racadm get iDRAC.SNMPAlert.<index>
+where <index> is a number from 1 to 8
+
+Page 185 Tables:
+traceroute	None
+Description	Traces network path of the routers as the packets traverse from the system to a destination IPv4 address.
+To run this subcommand, you must have the Execute Diagnostic Commands permission.
+Synopsis	racadm traceroute <IPv4 address>
+Input	IPv4 — Specifies IPv4 address.
+Output	traceroute to 192.168.0.1 (192.168.0.1), 30 hops max, 40 byte packets
+1 192.168.0.1 (192.168.0.1) 0.801 ms 0.246 ms 0.253 ms
+
+traceroute6	None
+Description	Traces the network path of routers as the packets traverse from the system to a destination IPv6 address.
+To run this subcommand, you must have the Execute Diagnostic Commands permission.
+Synopsis	racadm traceroute6 <IPv6address>
+Input	<IPv6address> – Specifies IPv6 address.
+Output	traceroute to fd01::1 (fd01::1) from fd01::3,
+30 hops max, 16 byte packets
+1 fd01::1 (fd01::1) 14.324 ms 0.26 ms 0.244 ms
+
+update subcommand	None
+Description	Allows you to update the firmware of devices on the server. The supported firmware image file types are:
+● .exe — Windows-based Dell Update Package (DUP)
+● .d9
+● .pm
+● .sc
+The supported catalog files are:
+● .xml
+● xml.gzip
+NOTE:
+● Updating the platforms from the repository is not supported for IPv6.
+● The firmware update through FTP has a limitation of file name up to 64 characters.
+
+Page 186 Tables:
+update subcommand	None
+	● Depending on the network traffic, the HTTP packet transfer may fail if you perform update
+operation from a remote RACADM through a local share. In such cases, retry the operation. If
+the issue persists, use remote RACADM with the CIFS or NFS share.
+● The supported share types for single file or DUP updates are CIFS, NFS, HTTP, and HTTPS. For
+Repository updates, the supported share types are CIFS, NFS, FTP, TFTP, and HTTP.
+● When a port number is appended to an IP address for firmware update, the job fails with an internal
+error.
+● racadm update command mounts a partition on the iDRAC as a USB device when run from the
+local host Operating System.
+Synopsis	For single file or DUP update:
+racadm update -f <updatefile>
+racadm update -f <updatefile> -l <location> -u <username for CIFS share>
+-p <password for CIFS share>
+racadm update -f <updatefile> -l <location>
+For Repository updates
+racadm update -f <catalog file> -t <Repository type> -l <location> \ -u
+<username for CIFS share> -p <password for CIFS share> \ [-a <restart>]
+[--verifycatalog]
+racadm update -f <catalog file> -t <Repository type> \ -e <FTP server
+with the path to the catalog file> [-a <restart>] \[--verifycatalog]
+racadm update -f <catalog file> -t <Repository type> \ -e <FTP server
+with the path to the catalog file> [-a <restart>] \ -ph <proxy ip> -pu
+<proxy user> -pp <proxy pass> -po <proxy port> \
+-pt <proxy type>
+racadm update viewreport
+Input	For single file or DUP update:
+● -f: <updatefile>—Update filename (Windows DUP, .d9,.pm, .sc) only.
+● -u: < username for CIFS share>—Specifies username of the remote share that stores the
+update file. Specify username in a domain as domain/username.
+● -p: <password for CIFS share—Specifies password of the remote share that stores the
+update file.
+● -l: <location>—Specifies network share location that stores the update file. For more information
+on NFS or CIFS share, see section on Usage examples
+● —reboot—Performs a graceful system reboot after the firmware update.
+For Repository update:
+● -f: <updatefile>—Update filename . For update from repository .xml files are allowed. If a
+file name is not specified for repository update, Catalog.xml is taken as default. If a file name is not
+specified for repository update, then the Catalog.xml is taken as default.
+● -u: < username for CIFS share>—Username of the remote share that stores the update file.
+Specify username in a domain as domain/username.
+● -p: <password for CIFS share — Specifies password of the remote share that stores the
+update file.
+● -l: <location>—Specifies network share location (CIFS/NFS/HTTP/HTTPS/FTP), that stores
+the update file. For more information on network share, see section on Usage examples
+
+Page 187 Tables:
+update subcommand	None
+	● -a: <restart> — This option indicates if the server should be restarted after the update from
+repository operation completes. Must be one of the below:
+○ TRUE : restart after update completes
+○ FALSE : do not restart after update completes
+NOTE: These options are case insensitive.
+● -t:Repository type>—Specifies the type of repository being used for the update. Must be one of
+the below:
+○ FTP: Repository is FTP
+○ TFTP: Repository is TFTP
+○ HTTP: Repository is HTTP
+○ HTTPS: Repository is HTTPS
+○ CIFS: Repository is CIFS
+○ NFS: Repository is NFS
+NOTE: These options are case insensitive. If the repository update functionality is to be invoked,
+this option is necessary.
+● -e:<FTP server with the path to the catalog file>—Specifies the Server path for
+the FTP, TFTP, HTTP, and HTTPS.
+● -ph : <proxy ip>—Specifies the IP address of the proxy server.
+● -pu : <proxy user>—Specifies the user name for proxy credentials.
+● -pp : <proxy pass>—Specifies the password for proxy credentials.
+● -po : <proxy port>—Specifies the port for proxy server.
+● -pt : <proxy type>—Specifies the proxy type. Must be one of the below:
+○ HTTP: Proxy is HTTP
+○ SOCKS4: Proxy is SOCKS4
+NOTE:
+○ If the repository has to be through a proxy, the proxy server address, proxy username and the
+proxy password are necessary. The Lifecycle Controller must be enabled for repository update.
+○ This command supports both IPV4 and IPV6 formats. IPV6 is applicable only for CIFS and NFS
+remote share.
+Output	Firmware update job for <filename> is initiated. This firmware update job may take several minutes to
+complete depending on the component or firmware being updated. To view the progress of the job, run the
+racadm jobqueue view command. For repository update command, the output is:
+Update from repository operation has been initiated. Check the progress
+of the operation using "racadm jobqueue view -i JID_809364633532" command.
+For devices that perform update process without rebooting the host, the update status changes from
+Downloading to Completed. For devices that require host reboot to perform update process, the
+update status changes from Downloading to Scheduled. When the status is displayed as Scheduled,
+reboot the host to start the update process. The following devices require host reboot to perform the
+update process:
+● Backplanes
+● BIOS
+● Complex programmable logic device (CPLD)
+● Hard disk drives
+○ Solid-state drives (SSD)
+● Network interface cards (NIC) or Fibre Channel (FC) cards
+● PCIe SSD devices
+● Power supply unit (PSU)
+● Storage controllers
+
+Page 188 has no tables.
+Page 189 Tables:
+update subcommand	None
+	● Perform update from an FTP repository and reboot the server to apply the updates:
+racadm update -f Catalog.xml -e 192.168.11.10/Repo/MyCatalog -a TRUE -t
+FTP
+● Perform update from an FTP repository with authentication and reboot the server to apply the updates
+racadm update -f Catalog.xml -e 192.168.11.10/Repo/MyCatalog -u user -p
+mypass -a TRUE -t FTP
+● Perform update from a HTTP repository and restart the server to apply the updates.
+racadm update -f Catalog.xml -e 192.168.11.10/Repo/MyCatalog -a TRUE -t
+HTTP
+● Perform update from a TFTP repository and restart the server to apply the updates.
+racadm update -f Catalog.xml -e 192.168.11.10/Repo/MyCatalog -a TRUE
+-t TFTP
+● Perform update from an FTP repository through a proxy server.
+racadm update -f Catalog.xml -e 192.168.11.10/Repo/MyCatalog -a TRUE
+-ph 145.140.12.56 -pu prxyuser -pp prxypass -po 80 -pt http -t FTP
+● Perform update from an downloads.dell.com
+racadm update -f Catalog.xml.gz -e downloads.dell.com/Catalog -a TRUE
+-t HTTPS
+● View the comparison report generated when --verifycatalog is used.
+racadm update viewreport
+
+usercertupload	None
+Description	Uploads a user certificate or a user CA certificate from the client to iDRAC. To run this subcommand, you
+must have the Configure iDRAC permission.
+Synopsis	racadm usercertupload -t <type> [-f <filename>] -i <index>
+Input	● -t — Specifies the type of certificate to upload, either the CA certificate or server certificate.
+○ 1=user certificate
+○ 2=user CA certificate
+● -f — Specifies the filename of the certificate that must be uploaded. If the file is not specified, the
+sslcert file in the current directory is selected.
+● -i — Index number of the user. Valid values 2–16.
+Output	If upload is successful, the message User certificate successfully uploaded to the RAC.
+If unsuccessful, appropriate error message is displayed.
+Example	To upload user certificate for user 6.
+racadm usercertupload -t 1 -f c:\cert\cert.txt -i 6
+
+Page 190 Tables:
+usercertview	None
+Description	Displays the user certificate or user CA certificate that exists on iDRAC.
+Synopsis	racadm usercertview -t <type> [-A] -i <index>
+Input	● -t —Specifies the type of certificate to view, either the user certificate or the user CA certificate.
+○ 1=user certificate
+○ 2=user CA certificate
+● -A —Prevents printing headers or labels.
+● -i —Index number of the user. Valid values are 2–16.
+Example	To view user certificate for user 6.
+racadm usercertview -t 1 -i 6
+Serial Number : 01
+Subject Information:
+Country Code (CC) : US
+State (S) : Texas
+Locality (L) : Round Rock
+Organization (O) : Dell Inc.
+Common Name (CN) : iDRAC default certificate
+Issuer Information:
+Country Code (CC) : US
+State (S) : Texas
+Locality (L) : Not Available
+Organization (O) : Dell Inc.
+Organizational Unit (OU): Remote Access Group
+Common Name (CN) : iDRAC default certificate
+Valid From : May 7 23:54:19 2017 GMT
+Valid To : May 4 23:54:19 2027 GMT
+NOTE: Not Available is displayed for attribute values in the certificate that are not populated or
+configured.
+
+vflashpartition	None
+Description	Manages the partitions on the vFlash SD card.
+NOTE:
+● To run this subcommand, you must have the iDRAC Enterprise license.
+● After iDRAC restart, the status of the previous operation performed on the partition(s) is erased.
+Synopsis	racadm vflashpartition <create | delete | status | list> -i<index>
+-o<label> -e<emulation type> -s<size> -f<format type> -t<partition type>
+-l<path> -u<user> -p<password> -a
+Input	● -o — Label that is displayed when the partition is mounted on the operating system. This option must
+be a string of up to six alphanumeric characters. VFLASH is the only accepted volume label for non-Dell
+SD card.
+
+Page 191 Tables:
+vflashpartition	None
+	● -e — Emulation type must be either floppy, cddvd, or hdd.
+○ floppy — emulates a floppy disk
+○ cddvd — emulates a CD or DVD
+○ hdd — emulates a hard disk
+● -s — Partition size in MB.
+● -f — Format type for the partition based on the type of the file system. Valid options are raw, ext2,
+ext3, fat16, and fat32.
+● -t — Create a partition of the following type:
+○ empty — Creates an empty partition
+○ image — Creates a partition using an image relative to iDRAC.
+Creation of a partition may be unsuccessful if:
+○ The network share is not reachable.
+○ The user name or password provided is not correct.
+○ The file provided does not exist.
+○ The memory available on the SD card is lesser than size of the image file.
+● -l — Specifies the remote path relative to iDRAC.
+● -u — User name for accessing the remote image.
+● -p — Password for accessing the remote image.
+● -a — Display the status of operations on all the existing partitions.
+● list — Lists the existing partitions and its properties.
+Example	● Create a 20MB empty partition.
+racadm vflashpartition create -i 1 -o Drive1 -e hdd -t empty -f fat16
+-s 20
+● Create a partition from a remote image.
+racadm vflashpartition create -i 1 -o Drive1 -e cddvd -t image -l
+//ipaddress/sharefolder/isoimge.iso -u username -p xxx
+A new partition is created. By default, the created partition is read-only. This command is case-sensitive
+for the image filename extension. If the filename extension is in uppercase, for example FOO.ISO
+instead of FOO.iso, then the command returns a syntax error.
+NOTE:
+○ This feature is not supported in Local RACADM.
+○ Creating vFlash partition from an image file on the CFS or NFS IPv6 enabled network share is
+not supported.
+● Delete a partition.
+racadm vflashpartition delete -i 1
+● Status of operation on partition 1.
+racadm vflashpartition status -i 1
+● Status of all the existing partitions.
+racadm vflashpartition status -a
+● List all the existing partitions and its properties.
+racadm vflashpartition list
+
+Page 192 Tables:
+vflashsd	None
+Description	Allows you to initialize or get the status of the vFlash SD card. The initialize operation removes all the
+existing partitions and resets the card. The status operation displays the status of the last operation
+performed on the card. To run this subcommand, you must have the Access Virtual Media privilege.
+NOTE: After you restart the iDRAC, the status of the previous initialize operation is erased.
+Synopsis	● racadm vflashsd initialize
+● racadm vflashsd status
+Input	● Initialize— performs initialize operation on SD card.
+● Status — indicates to view the progress or status report of the initialize operation.
+Output	If initialization is in progress, the message Initialization of the vFlash SD Card
+is now in progress is displayed. If unsuccessful, appropriate error message is displayed. If
+the status of the last operation performed is successful, the message LastAction Progress
+Status=============Initialize SD Card 100 % Complete is displayed. If unsuccessful,
+appropriate error message is displayed.
+
+vmdisconnect	None
+Description	Allows you to end another Virtual Media session. After the session ends, the web-based interface reflects
+the correct connection status. Enables an iDRAC user to disconnect all active Virtual Media sessions. The
+active Virtual Media sessions are displayed on iDRAC web-based interface or by running the RACADM
+subcommands remoteimage or getssninfo. To run this subcommand, you must have the Access
+Virtual Media permission.
+Synopsis	racadm vmdisconnect
+
+witnessnodepoweraction	None
+Description	The witnessnodepoweraction command is used to perform witness node power management operations.
+Synopsis	racadm witnessnodepoweraction <action>
+Input	<action> - Specifies the witness node power management operation to perform. The possible values
+are:
+● powerdown : power witness node off
+● powerup : power witness node on
+● hardreset : force hard witness node power reset
+● reseat : re-seat witness node
+● powerstatus : display current power status of witness node
+
